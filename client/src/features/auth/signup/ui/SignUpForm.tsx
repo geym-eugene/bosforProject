@@ -1,18 +1,18 @@
-import { signup } from '@/entities/user/model/userThunks';
-import { useAppDispatch } from '@/shared/lib/hooks';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import styles from './SignForm.module.css';
+import { signup } from "@/entities/user/model/userThunks";
+import { useAppDispatch } from "@/shared/library/hooks";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import styles from "./SignForm.module.css";
 
-function SignUpForm(): React.JSX.Element {
+function SignUpForm({ logRegHandler }): React.JSX.Element {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -26,17 +26,21 @@ function SignUpForm(): React.JSX.Element {
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     if (formData.password !== formData.confirmPassword) {
-      setError('Пароли не совпадают');
+      setError("Пароли не совпадают");
       return;
     }
     if (formData.password.length <= 3) {
-      setError('Слишком короткий пароль');
+      setError("Слишком короткий пароль");
       return;
     }
-    if (formData.password.split('').every((c) => c.toLowerCase() !== c.toUpperCase())) {
-      setError('Нужны цифры или спецсимволы');
+    if (
+      formData.password
+        .split("")
+        .every((c) => c.toLowerCase() !== c.toUpperCase())
+    ) {
+      setError("Нужны цифры или спецсимволы");
       return;
     }
 
@@ -44,9 +48,9 @@ function SignUpForm(): React.JSX.Element {
 
     dispatch(signup(formData))
       .unwrap()
-      .then(() => navigate('/'))
+      .then(() => navigate("/"))
       .catch((err) => {
-        setError('Ошибка регистрации');
+        setError("Ошибка регистрации");
         setLoading(false);
       });
   };
@@ -58,53 +62,59 @@ function SignUpForm(): React.JSX.Element {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
 
   return (
-    <form className={styles.formContainer} onSubmit={onSubmit}>
-      <div className={styles.formTitle}>РЕГИСТРАЦИЯ</div>
-      <input
-        className={styles.inputField}
-        name="username"
-        type="text"
-        placeholder="Введи имя пользователя"
-        value={formData.username}
-        onChange={handleChange}
-        autoComplete="username"
-      />
-      <input
-        className={styles.inputField}
-        name="email"
-        type="email"
-        placeholder="Введи email"
-        value={formData.email}
-        onChange={handleChange}
-        autoComplete="email"
-      />
-      <input
-        className={styles.inputField}
-        name="password"
-        type="password"
-        placeholder="Введи пароль"
-        value={formData.password}
-        onChange={handleChange}
-        autoComplete="new-password"
-      />
-      <input
-        className={styles.inputField}
-        name="confirmPassword"
-        type="password"
-        placeholder="Повтори пароль"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        autoComplete="new-password"
-      />
-      <button
-        className={styles.button}
-        type="submit"
-        disabled={!isValid || loading}
-      >
-        Зарегистрироваться
-      </button>
-      <div className={styles.error}>{error}</div>
-    </form>
+    <>
+      <form className={styles.formContainer} onSubmit={onSubmit}>
+        <div className={styles.formTitle}>РЕГИСТРАЦИЯ</div>
+        <input
+          className={styles.inputField}
+          name="username"
+          type="text"
+          placeholder="Введи имя пользователя"
+          value={formData.username}
+          onChange={handleChange}
+          autoComplete="username"
+        />
+        <input
+          className={styles.inputField}
+          name="email"
+          type="email"
+          placeholder="Введи email"
+          value={formData.email}
+          onChange={handleChange}
+          autoComplete="email"
+        />
+        <input
+          className={styles.inputField}
+          name="password"
+          type="password"
+          placeholder="Введи пароль"
+          value={formData.password}
+          onChange={handleChange}
+          autoComplete="new-password"
+        />
+        <input
+          className={styles.inputField}
+          name="confirmPassword"
+          type="password"
+          placeholder="Повтори пароль"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          autoComplete="new-password"
+        />
+        <button
+          className={styles.button}
+          type="submit"
+          disabled={!isValid || loading}
+        >
+          Зарегистрироваться
+        </button>
+        <div className={styles.error}>{error}</div>
+      </form>
+      <div>
+        нет аккаунта?
+        <button onClick={logRegHandler}>Зарегестрироваться</button>
+      </div>
+    </>
   );
 }
 
