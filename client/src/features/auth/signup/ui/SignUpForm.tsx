@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styles from "./SignForm.module.css";
 
-function SignUpForm({ logRegHandler }): React.JSX.Element {
+function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     username: "",
@@ -14,7 +14,7 @@ function SignUpForm({ logRegHandler }): React.JSX.Element {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
@@ -48,7 +48,7 @@ function SignUpForm({ logRegHandler }): React.JSX.Element {
 
     dispatch(signup(formData))
       .unwrap()
-      .then(() => navigate("/"))
+      // .then(() => navigate("/"))
       .catch((err) => {
         setError("Ошибка регистрации");
         setLoading(false);
@@ -110,10 +110,16 @@ function SignUpForm({ logRegHandler }): React.JSX.Element {
         </button>
         <div className={styles.error}>{error}</div>
       </form>
-      <div>
-        нет аккаунта?
-        <button onClick={logRegHandler}>Зарегестрироваться</button>
-      </div>
+      {logReg ? (
+        <div>
+          нет аккаунта?
+          <button onClick={logRegHandler}>Зарегестрироваться</button>
+        </div>
+      ) : (
+        <div>
+          есть аккаунт? <button onClick={logRegHandler}>Войти</button>
+        </div>
+      )}
     </>
   );
 }
