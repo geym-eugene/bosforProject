@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styles from "./SignForm.module.css";
 
-function SignInForm({ logRegHandler }): React.JSX.Element {
+function SignInForm({ logReg, logRegHandler }): React.JSX.Element {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ function SignInForm({ logRegHandler }): React.JSX.Element {
       const validated = signinSchema.parse(data);
       dispatch(signin(validated))
         .unwrap()
-        .then(() => navigate("/"))
+        // .then(() => navigate("/"))
         .catch(() => {
           setError("Ошибка входа");
           setLoading(false);
@@ -54,10 +54,16 @@ function SignInForm({ logRegHandler }): React.JSX.Element {
         </button>
         <div className={styles.error}>{error}</div>
       </form>
-      <div>
-        нет аккаунта?
-        <button onClick={logRegHandler}>Зарегестрироваться</button>
-      </div>
+      {logReg ? (
+        <div>
+          есть аккаунт? <button onClick={logRegHandler}>Войти</button>
+        </div>
+      ) : (
+        <div>
+          нет аккаунта?
+          <button onClick={logRegHandler}>Зарегестрироваться</button>
+        </div>
+      )}
     </>
   );
 }
