@@ -6,11 +6,13 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
+import SignPage from "@/pages/auth-page/SignPage";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />}></Route>
+      <Route path="/reg" element={<SignPage />}></Route>
       <Route path="/projects" element={<div>ProjectPage</div>}></Route>
       {/* <Route element={<ProtectedRoute isAllowed={isLogged} redirectTo="/" />}> */}
       {/* <Route path="/main" element={<MainPage />}></Route> */}
