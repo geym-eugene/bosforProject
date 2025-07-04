@@ -1,16 +1,22 @@
-
-import React, { useState } from 'react';
-import { ChevronDown, Filter, Grid3x3, Home, Square } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronDown, Filter, Grid3x3, Home, Square } from "lucide-react";
+import ModalAdding from "@/entities/projects/ui/ModalAdding";
+import { NewProjectT } from "@/entities/projects/model/projectType";
+import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
+import { addProjectThunk } from "@/entities/projects/model/projectThunks";
+import { openAddModal } from "@/entities/projects/model/projectSlice";
+import SecondModal from "@/entities/projects/ui/SecondModal";
 
 const FilterSection = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
+  const dispatch = useAppDispatch();
 
   const filters = [
-    { id: 'all', label: 'All Projects', count: 124 },
-    { id: 'modern', label: 'Modern', count: 48 },
-    { id: 'scandinavian', label: 'Scandinavian', count: 32 },
-    { id: 'minimalist', label: 'Minimalist', count: 28 },
-    { id: 'luxury', label: 'Luxury', count: 16 }
+    { id: "all", label: "All Projects", count: 124 },
+    { id: "modern", label: "Modern", count: 48 },
+    { id: "scandinavian", label: "Scandinavian", count: 32 },
+    { id: "minimalist", label: "Minimalist", count: 28 },
+    { id: "luxury", label: "Luxury", count: 16 },
   ];
 
   return (
@@ -34,8 +40,8 @@ const FilterSection = () => {
               onClick={() => setActiveFilter(filter.id)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeFilter === filter.id
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
+                  ? "bg-gray-900 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
               }`}
             >
               {filter.label}
@@ -83,8 +89,16 @@ const FilterSection = () => {
             <Filter className="h-5 w-5" />
             Apply Filters
           </button>
+          <button
+            onClick={() => dispatch(openAddModal())}
+            className="px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+          >
+            Add Project
+          </button>
         </div>
       </div>
+      <SecondModal />
+      <ModalAdding />
     </section>
   );
 };

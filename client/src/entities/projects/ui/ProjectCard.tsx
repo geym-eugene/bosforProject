@@ -1,49 +1,41 @@
-
-import React from 'react';
-import { Eye, Heart, Download, Square, Home } from 'lucide-react';
-
-interface Project {
-  id: number;
-  title: string;
-  style: string;
-  area: string;
-  floors: number;
-  price: string;
-  image: string;
-  featured: boolean;
-}
+import React from "react";
+import { Eye, Heart, Download, Square, Home } from "lucide-react";
+import type { ProjectT } from "@/entities/projects/model/projectType";
+import { useAppDispatch } from "@/shared/library/hooks";
+import { deleteProjectThunk } from "../model/projectThunks";
+import { openSecondModal } from "../model/projectSlice";
+import SecondModal from "./SecondModal";
 
 interface ProjectCardProps {
   project: ProjectT;
   className?: string;
 }
 
-export interface ProjectT {
-  id: number;
-  title: string;
-  description: string;
-  area_m2: number;
-  floors: number;
-  material: string;
-  price: string;
-  model_3d_url: string;
-  plan_pdf_url: string;
-}
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  project,
+  className = "",
+}: ProjectCardProps) => {
+  const dispatch = useAppDispatch();
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) => {
+  const handleDelete = (id) => {
+    dispatch(deleteProjectThunk(id));
+  };
+
   return (
-    <div className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${className}`}>
+    <div
+      className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${className}`}
+    >
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <img
-          src={project.model_3d_url} // картинку надо
+          src={project.image_preview} // картинку надо
           alt={project.title}
           className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-700"
         />
-        
+
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
+
         {/* Action Buttons */}
         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
@@ -63,10 +55,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
         </div>
 
         {/* Featured Badge */}
-        {project.featured && (
+        {project.plan_pdf_url && (
           <div className="absolute top-4 left-4">
             <span className="px-3 py-1 bg-yellow-400 text-gray-900 text-xs font-semibold rounded-full">
-              Featured
+              3dModel
             </span>
           </div>
         )}
@@ -76,8 +68,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
       <div className="p-6">
         <div className="flex justify-between items-start mb-3">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-1">{project.title}</h3>
-            <p className="text-gray-600 text-sm">{'материал: ' + project.material}</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-1">
+              {project.title}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {"материал: " + project.material}
+            </p>
           </div>
           <div className="text-right">
             <p className="text-2xl font-bold text-gray-900">{`${project.price} рублей`}</p>
@@ -88,7 +84,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
         <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
           <div className="flex items-center gap-1">
             <Square className="h-4 w-4" />
-            <span>{project.area_m2 + ' м2'}</span>
+            <span>{project.area_m2 + " м2"}</span>
           </div>
           <div className="flex items-center gap-1">
             <Home className="h-4 w-4" />
@@ -99,6 +95,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
         {/* AI Interior Button */}
         <button className="w-full py-3 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
           Generate AI Interior
+        </button>
+        <button
+          onClick={() => handleDelete(project.id)}
+          className="w-full py-3 border border-red-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+        >
+          Тут надо привязать к ADMIN - УДАЛИЦ
+        </button>
+        <button
+          onClick={() => dispatch(openSecondModal(project.id))}
+          className="w-full py-3 border border-red-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+        >
+          Редактировать
         </button>
       </div>
     </div>

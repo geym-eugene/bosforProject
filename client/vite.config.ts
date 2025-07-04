@@ -11,7 +11,8 @@ export default defineConfig(({ mode }) => ({
     proxy: {
       "/api": {
         target: "http://localhost:3000",
-        rewrite: (urlPath) => urlPath.replace(/^\/api/, ""), // ← убирает /api
+        // changeOrigin: true,
+        // rewrite: (urlPath) => urlPath.replace(/^\/api/, ""), // ← убирает /api
       },
     },
   },
