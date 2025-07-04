@@ -1,0 +1,90 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { InitialStateT } from "./projectType";
+import {
+  addProjectThunk,
+  deleteProjectThunk,
+  getAllProjectsThunk,
+  patchProjectThunk,
+} from "./projectThunks";
+
+const initialState: InitialStateT = {
+  projects: [],
+  loading: false,
+  error: null,
+};
+
+export const projectsSlice = createSlice({
+  name: "project",
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    //get
+    builder.addCase(getAllProjectsThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllProjectsThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(getAllProjectsThunk.fulfilled, (state, action) => {
+      state.projects = action.payload;
+      state.loading = false;
+      state.error = null;
+    });
+    //post
+    builder.addCase(addProjectThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(addProjectThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(addProjectThunk.fulfilled, (state, action) => {
+      state.projects.push(action.payload);
+      state.loading = false;
+      state.error = null;
+    });
+    //delete
+    builder.addCase(deleteProjectThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(deleteProjectThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(deleteProjectThunk.fulfilled, (state, action) => {
+      state.projects = state.projects.filter(
+        (project) => project.id !== action.payload
+      );
+      state.loading = false;
+      state.error = null;
+    });
+    //patch
+    builder.addCase(patchProjectThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(patchProjectThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+    builder.addCase(patchProjectThunk.fulfilled, (state, action) => {
+      const index = state.projects.findIndex(
+        (project) => project.id === action.meta.arg.id
+      );
+      if (index !== -1) {
+        state.projects[index] = {
+          ...state.projects[index],
+          ...action.payload,
+        };
+      }
+      state.loading = false;
+      state.error = null;
+    });
+  },
+});
+
+export default projectsSlice.reducer
