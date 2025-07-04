@@ -62,65 +62,56 @@ function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
 
   return (
-    <>
-      <form className={styles.formContainer} onSubmit={onSubmit}>
-        <div className={styles.formTitle}>РЕГИСТРАЦИЯ</div>
-        <input
-          className={styles.inputField}
-          name="username"
-          type="text"
-          placeholder="Введи имя пользователя"
-          value={formData.username}
-          onChange={handleChange}
-          autoComplete="username"
-        />
-        <input
-          className={styles.inputField}
-          name="email"
-          type="email"
-          placeholder="Введи email"
-          value={formData.email}
-          onChange={handleChange}
-          autoComplete="email"
-        />
-        <input
-          className={styles.inputField}
-          name="password"
-          type="password"
-          placeholder="Введи пароль"
-          value={formData.password}
-          onChange={handleChange}
-          autoComplete="new-password"
-        />
-        <input
-          className={styles.inputField}
-          name="confirmPassword"
-          type="password"
-          placeholder="Повтори пароль"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          autoComplete="new-password"
-        />
-        <button
-          className={styles.button}
-          type="submit"
-          disabled={!isValid || loading}
-        >
-          Зарегистрироваться
-        </button>
-        <div className={styles.error}>{error}</div>
-      </form>
-      {logReg ? (
-        <div>
-          нет аккаунта?
-          <button onClick={logRegHandler}>Зарегестрироваться</button>
-        </div>
-      ) : (
-        <div>
-          есть аккаунт? <button onClick={logRegHandler}>Войти</button>
-        </div>
-      )}
-    </>
+    <form className={styles.formContainer} onSubmit={onSubmit}>
+      <div className={styles.formTitle}>РЕГИСТРАЦИЯ</div>
+      <input
+        className={styles.inputField}
+        name="username"
+        type="text"
+        placeholder="Введи имя пользователя"
+        value={formData.username}
+        onChange={handleChange}
+        autoComplete="username"
+      />
+      <input
+        className={styles.inputField}
+        name="email"
+        type="email"
+        placeholder="Введи email"
+        value={formData.email}
+        onChange={handleChange}
+        autoComplete="email"
+      />
+      <input
+        className={styles.inputField}
+        name="password"
+        type="password"
+        placeholder="Введи пароль"
+        value={formData.password}
+        onChange={handleChange}
+        autoComplete="new-password"
+      />
+      <input
+        className={styles.inputField}
+        name="confirmPassword"
+        type="password"
+        placeholder="Повтори пароль"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        autoComplete="new-password"
+      />
+      <button
+        className={styles.button}
+        type="submit"
+        disabled={!isValid || loading}
+      >
+        Зарегистрироваться
+      </button>
+      <div className={styles.error}>{error}</div>
+      <div>
+        есть аккаунт? <button onClick={logRegHandler}>Войти</button>
+      </div>
+    </form>
   );
 }
 
