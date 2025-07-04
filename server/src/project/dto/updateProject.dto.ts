@@ -1,18 +1,15 @@
 import {
-  IsString,
-  IsNotEmpty,
   IsOptional,
+  IsString,
   IsNumber,
   IsPositive,
   IsUrl,
 } from 'class-validator';
 
-export class CreateProjectDto {
+export class UpdateProjectDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty({
-    message: 'Sosal?',
-  })
-  title: string;
+  title?: string;
 
   @IsOptional()
   @IsString()

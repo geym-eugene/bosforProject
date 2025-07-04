@@ -30,6 +30,9 @@ export class Project {
   price: number;
 
   @Column({ type: 'varchar', nullable: true, default: null })
+  image_preview: string;
+
+  @Column({ type: 'varchar', nullable: true, default: null })
   model_3d_url: string;
 
   @Column({ type: 'varchar', nullable: true, default: null })
