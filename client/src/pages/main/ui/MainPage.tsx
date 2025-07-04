@@ -3,6 +3,7 @@ import HeroSection from "../../../components/HeroSection";
 import FilterSection from "../../../components/FilterSection";
 import ProjectGrid from "../../../components/ProjectGrid";
 import FeatureSection from "../../../components/FeatureSection";
+import ProjectList from "@/widgets/project/ProjectList";
 
 const MainPage = (): React.JSX.Element => {
   return (
@@ -11,6 +12,7 @@ const MainPage = (): React.JSX.Element => {
       <HeroSection />
       <FilterSection />
       <ProjectGrid />
+      <ProjectList />
       <FeatureSection />
     </div>
   );
