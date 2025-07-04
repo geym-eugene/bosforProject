@@ -3,8 +3,11 @@ import type { NewProjectT } from "../model/projectType";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { closeAddModal } from "../model/projectSlice";
 import { addProjectThunk } from "../model/projectThunks";
+import { useNavigate } from "react-router-dom";
+import { error } from "console";
 
 const ModalAddProject = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.project.isAddModalOpen);
 
@@ -34,7 +37,9 @@ const ModalAddProject = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(addProjectThunk(form));
+    dispatch(addProjectThunk(form))
+      .unwrap()
+      .then((newProject) => navigate(`/project/${newProject.id}`)).catch(error => console.error)
     dispatch(closeAddModal());
   };
 

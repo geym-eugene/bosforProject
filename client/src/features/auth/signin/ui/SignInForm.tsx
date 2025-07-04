@@ -2,25 +2,28 @@ import { signinSchema } from "@/entities/user/model/userSchems";
 import { signin } from "@/entities/user/model/userThunks";
 import { useAppDispatch } from "@/shared/library/hooks";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import styles from "./SignForm.module.css";
 
-function SignInForm({ logReg, logRegHandler }): React.JSX.Element {
+function SignInForm({
+  logReg,
+  logRegHandler,
+}: {
+  logReg: boolean;
+  logRegHandler: () => void;
+}): React.JSX.Element {
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const hendleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     const data = Object.fromEntries(new FormData(e.currentTarget));
+
     try {
       const validated = signinSchema.parse(data);
       dispatch(signin(validated))
         .unwrap()
-        // .then(() => navigate("/"))
         .catch(() => {
           setError("Ошибка входа");
           setLoading(false);
@@ -32,28 +35,52 @@ function SignInForm({ logReg, logRegHandler }): React.JSX.Element {
   };
 
   return (
-    <form className={styles.formContainer} onSubmit={hendleSubmit}>
-      <div className={styles.formTitle}>ВХОД</div>
+    <form
+      className="w-full max-w-md mx-auto p-8 bg-white rounded-xl shadow-md space-y-6"
+      onSubmit={handleSubmit}
+    >
+      <h2 className="text-2xl font-bold text-center text-gray-800">Вход</h2>
+
       <input
-        className={styles.inputField}
         name="email"
         type="email"
-        placeholder="Введи email"
+        placeholder="Email"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         autoComplete="email"
+        required
       />
       <input
-        className={styles.inputField}
         name="password"
         type="password"
-        placeholder="Введи пароль"
+        placeholder="Пароль"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         autoComplete="current-password"
+        required
       />
-      <button className={styles.button} type="submit" disabled={loading}>
-        Войти
+
+      {error && (
+        <div className="text-sm text-red-600 text-center">{error}</div>
+      )}
+
+      <button
+        className={`w-full bg-blue-600 text-white py-2 rounded font-semibold transition duration-200 ${
+          loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+        }`}
+        type="submit"
+        disabled={loading}
+      >
+        {loading ? "Вход..." : "Войти"}
       </button>
-      <div className={styles.error}>{error}</div>
-      <div>
-        нет аккаунта? <button onClick={logRegHandler}>Зарегестрироваться</button>
+
+      <div className="text-center text-sm text-gray-600">
+        Нет аккаунта?{" "}
+        <button
+          type="button"
+          onClick={logRegHandler}
+          className="text-blue-600 hover:underline"
+        >
+          Зарегистрироваться
+        </button>
       </div>
     </form>
   );

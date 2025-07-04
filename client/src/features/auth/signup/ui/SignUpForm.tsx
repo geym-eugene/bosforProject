@@ -1,10 +1,14 @@
 import { signup } from "@/entities/user/model/userThunks";
 import { useAppDispatch } from "@/shared/library/hooks";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import styles from "./SignForm.module.css";
 
-function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
+function SignUpForm({
+  logReg,
+  logRegHandler,
+}: {
+  logReg: boolean;
+  logRegHandler: () => void;
+}): React.JSX.Element {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     username: "",
@@ -14,7 +18,6 @@ function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
@@ -27,20 +30,21 @@ function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     setError("");
+
     if (formData.password !== formData.confirmPassword) {
       setError("Пароли не совпадают");
       return;
     }
+
     if (formData.password.length <= 3) {
       setError("Слишком короткий пароль");
       return;
     }
+
     if (
-      formData.password
-        .split("")
-        .every((c) => c.toLowerCase() !== c.toUpperCase())
+      formData.password.split("").every((c) => c.toLowerCase() === c.toUpperCase())
     ) {
-      setError("Нужны цифры или спецсимволы");
+      setError("Пароль должен содержать цифры или спецсимволы");
       return;
     }
 
@@ -48,8 +52,7 @@ function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
 
     dispatch(signup(formData))
       .unwrap()
-      // .then(() => navigate("/"))
-      .catch((err) => {
+      .catch(() => {
         setError("Ошибка регистрации");
         setLoading(false);
       });
@@ -62,54 +65,72 @@ function SignUpForm({ logReg, logRegHandler }): React.JSX.Element {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
 
   return (
-    <form className={styles.formContainer} onSubmit={onSubmit}>
-      <div className={styles.formTitle}>РЕГИСТРАЦИЯ</div>
+    <form
+      className="w-full max-w-md mx-auto p-8 bg-white rounded-xl shadow-md space-y-6"
+      onSubmit={onSubmit}
+    >
+      <h2 className="text-2xl font-bold text-center text-gray-800">Регистрация</h2>
+
       <input
-        className={styles.inputField}
         name="username"
         type="text"
-        placeholder="Введи имя пользователя"
+        placeholder="Имя пользователя"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={formData.username}
         onChange={handleChange}
         autoComplete="username"
       />
       <input
-        className={styles.inputField}
         name="email"
         type="email"
-        placeholder="Введи email"
+        placeholder="Email"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={formData.email}
         onChange={handleChange}
         autoComplete="email"
       />
       <input
-        className={styles.inputField}
         name="password"
         type="password"
-        placeholder="Введи пароль"
+        placeholder="Пароль"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={formData.password}
         onChange={handleChange}
         autoComplete="new-password"
       />
       <input
-        className={styles.inputField}
         name="confirmPassword"
         type="password"
-        placeholder="Повтори пароль"
+        placeholder="Повторите пароль"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={formData.confirmPassword}
         onChange={handleChange}
         autoComplete="new-password"
       />
+
+      {error && (
+        <div className="text-sm text-red-600 text-center">{error}</div>
+      )}
+
       <button
-        className={styles.button}
         type="submit"
         disabled={!isValid || loading}
+        className={`w-full bg-blue-600 text-white py-2 rounded font-semibold transition duration-200 ${
+          !isValid || loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+        }`}
       >
-        Зарегистрироваться
+        {loading ? "Регистрация..." : "Зарегистрироваться"}
       </button>
-      <div className={styles.error}>{error}</div>
-      <div>
-        есть аккаунт? <button onClick={logRegHandler}>Войти</button>
+
+      <div className="text-center text-sm text-gray-600">
+        Есть аккаунт?{" "}
+        <button
+          type="button"
+          onClick={logRegHandler}
+          className="text-blue-600 hover:underline"
+        >
+          Войти
+        </button>
       </div>
     </form>
   );
