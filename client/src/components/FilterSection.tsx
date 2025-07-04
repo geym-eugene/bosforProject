@@ -87,7 +87,7 @@ const FilterSection = () => {
 
           <button className="px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
             <Filter className="h-5 w-5" />
-            Apply Filters
+            Apply Filters ПРОВЕРКА
           </button>
           <button
             onClick={() => dispatch(openAddModal())}
