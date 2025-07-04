@@ -12,13 +12,20 @@ import { ProjectService } from './project.service';
 import { Project } from './entity';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { UpdateProjectDto } from './dto/updateProject.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { GetProjectDto } from './dto/getProject.dto';
 
 @Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
   @Get()
   @ApiOperation({ summary: 'Получить все проекты' })
+  @ApiResponse({
+    status: 200,
+    description: 'Список проектов',
+    type: GetProjectDto,
+    isArray: true,
+  })
   getAll(): Promise<Project[]> {
     return this.projectService.findAll();
   }
@@ -35,6 +42,7 @@ export class ProjectController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateProjectDto,
   ): Promise<Project> {
+    console.log('dto', dto);
     return this.projectService.update(id, dto);
   }
 
