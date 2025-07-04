@@ -5,7 +5,6 @@ import {
   IsOptional,
   IsNumber,
   IsPositive,
-  IsUrl,
 } from 'class-validator';
 
 export class CreateProjectDto {
@@ -48,16 +47,16 @@ export class CreateProjectDto {
       'https://www.ccnova.ru/upload/resize_cache/iblock/8ef/8e1rimlj3ny6slsmc81gyxr3d12d7szp/800_500_0/310-Novatsiya_vid-1_variant-1.jpg',
   })
   @IsOptional()
-  @IsUrl()
+  @IsString()
   image_preview?: string;
 
   @ApiProperty({ example: 'https://bosfor.s3/model/dom-skandi.glb' })
   @IsOptional()
-  @IsUrl()
+  @IsString()
   model_3d_url?: string;
 
   @ApiProperty({ example: 'https://bosfor.s3/plans/dom-skandi.pdf' })
   @IsOptional()
-  @IsUrl()
+  @IsString()
   plan_pdf_url?: string;
 }
