@@ -13,7 +13,6 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<MainPage />}></Route>
       <Route path="/reg" element={<SignPage />}></Route>
-      <Route path="/projects" element={<div>ProjectPage</div>}></Route>
       {/* <Route element={<ProtectedRoute isAllowed={isLogged} redirectTo="/" />}> */}
       {/* <Route path="/main" element={<MainPage />}></Route> */}
       {/* </Route> */}
