@@ -9,7 +9,10 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 5173,
     proxy: {
-      "/api": "http://localhost:3000",
+      "/api": {
+        target: "http://localhost:3000",
+        rewrite: (urlPath) => urlPath.replace(/^\/api/, ""), // ← убирает /api
+      },
     },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(
