@@ -12,10 +12,11 @@ import { ProjectService } from './project.service';
 import { Project } from './entity';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { UpdateProjectDto } from './dto/updateProject.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetProjectDto } from './dto/getProject.dto';
 
-@Controller('projects')
+@ApiTags('Projects')
+@Controller('api/projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
   @Get()

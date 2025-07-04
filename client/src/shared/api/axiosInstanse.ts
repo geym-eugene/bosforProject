@@ -1,11 +1,11 @@
-import type { AxiosError } from 'axios';
-import axios from 'axios';
+import type { AxiosError } from "axios";
+import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
 });
 
-let accessToken = '';
+let accessToken = "";
 
 axiosInstance.interceptors.request.use((config) => {
   config.headers.Authorization ??= `Bearer ${accessToken}`;
@@ -18,13 +18,15 @@ axiosInstance.interceptors.response.use(
     const prev = err.config;
     if (err.status === 403 && !prev.sent) {
       prev.sent = true;
-      const response = await axios.get<{ accessToken: string }>('/api/auth/refresh');
+      const response = await axios.get<{ accessToken: string }>(
+        "/api/auth/refresh"
+      );
       accessToken = response.data.accessToken;
       prev.headers.Authorization = `Bearer ${accessToken}`;
       return axiosInstance(prev);
     }
     return Promise.reject(err);
-  },
+  }
 );
 
 export default axiosInstance;

@@ -7,12 +7,14 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
 import SignPage from "@/pages/auth-page/SignPage";
+import ProjectDetailPage from "@/pages/project-page/ProjectPage";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />}></Route>
       <Route path="/reg" element={<SignPage />}></Route>
+      <Route path="/project/:id" element={<ProjectDetailPage />}></Route>
       {/* <Route element={<ProtectedRoute isAllowed={isLogged} redirectTo="/" />}> */}
       {/* <Route path="/main" element={<MainPage />}></Route> */}
       {/* </Route> */}
