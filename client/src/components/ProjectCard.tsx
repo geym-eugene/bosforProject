@@ -14,8 +14,20 @@ interface Project {
 }
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectT;
   className?: string;
+}
+
+export interface ProjectT {
+  id: number;
+  title: string;
+  description: string;
+  area_m2: number;
+  floors: number;
+  material: string;
+  price: string;
+  model_3d_url: string;
+  plan_pdf_url: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) => {
@@ -24,7 +36,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <img
-          src={project.image}
+          src={project.model_3d_url} // картинку надо
           alt={project.title}
           className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-700"
         />
@@ -65,10 +77,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
         <div className="flex justify-between items-start mb-3">
           <div>
             <h3 className="text-xl font-bold text-gray-900 mb-1">{project.title}</h3>
-            <p className="text-gray-600 text-sm">{project.style}</p>
+            <p className="text-gray-600 text-sm">{'материал: ' + project.material}</p>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold text-gray-900">{project.price}</p>
+            <p className="text-2xl font-bold text-gray-900">{`${project.price} рублей`}</p>
           </div>
         </div>
 
@@ -76,11 +88,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = '' }) =>
         <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
           <div className="flex items-center gap-1">
             <Square className="h-4 w-4" />
-            <span>{project.area}</span>
+            <span>{project.area_m2 + ' м2'}</span>
           </div>
           <div className="flex items-center gap-1">
             <Home className="h-4 w-4" />
-            <span>{project.floors} Floors</span>
+            <span>{project.floors} Этажа</span>
           </div>
         </div>
 
