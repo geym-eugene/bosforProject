@@ -32,39 +32,30 @@ function SignInForm({ logReg, logRegHandler }): React.JSX.Element {
   };
 
   return (
-    <>
-      <form className={styles.formContainer} onSubmit={hendleSubmit}>
-        <div className={styles.formTitle}>ВХОД</div>
-        <input
-          className={styles.inputField}
-          name="email"
-          type="email"
-          placeholder="Введи email"
-          autoComplete="email"
-        />
-        <input
-          className={styles.inputField}
-          name="password"
-          type="password"
-          placeholder="Введи пароль"
-          autoComplete="current-password"
-        />
-        <button className={styles.button} type="submit" disabled={loading}>
-          Войти
-        </button>
-        <div className={styles.error}>{error}</div>
-      </form>
-      {logReg ? (
-        <div>
-          есть аккаунт? <button onClick={logRegHandler}>Войти</button>
-        </div>
-      ) : (
-        <div>
-          нет аккаунта?
-          <button onClick={logRegHandler}>Зарегестрироваться</button>
-        </div>
-      )}
-    </>
+    <form className={styles.formContainer} onSubmit={hendleSubmit}>
+      <div className={styles.formTitle}>ВХОД</div>
+      <input
+        className={styles.inputField}
+        name="email"
+        type="email"
+        placeholder="Введи email"
+        autoComplete="email"
+      />
+      <input
+        className={styles.inputField}
+        name="password"
+        type="password"
+        placeholder="Введи пароль"
+        autoComplete="current-password"
+      />
+      <button className={styles.button} type="submit" disabled={loading}>
+        Войти
+      </button>
+      <div className={styles.error}>{error}</div>
+      <div>
+        нет аккаунта? <button onClick={logRegHandler}>Зарегестрироваться</button>
+      </div>
+    </form>
   );
 }
 
