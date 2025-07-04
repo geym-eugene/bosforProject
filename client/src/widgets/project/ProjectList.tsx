@@ -5,15 +5,17 @@ import React, { useEffect } from "react";
 
 function ProjectList(): React.JSX.Element {
   const dispatch = useAppDispatch();
-  const { projects } = useAppSelector((store) => store.project);
+  const projects = useAppSelector((store) => store.project.projects);
 
-  useEffect(() => void dispatch(getAllProjectsThunk()), []);
+  useEffect(() => {
+    void dispatch(getAllProjectsThunk());
+  }, []);
   return (
     <>
       {projects.map((project) => (
-        <div key={project.id} >
-        <ProjectItem project={project}></ProjectItem>
-        <button>Добавить проект/Пока Мок </button>
+        <div key={project.id}>
+          <ProjectItem project={project}></ProjectItem>
+          <button>Добавить проект/Пока Мок </button>
         </div>
       ))}
     </>
