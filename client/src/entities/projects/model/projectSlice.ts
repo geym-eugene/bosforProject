@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { InitialStateT } from "./projectType";
 import {
   addProjectThunk,
@@ -11,12 +11,30 @@ const initialState: InitialStateT = {
   projects: [],
   loading: false,
   error: null,
+  isAddModalOpen: false,
+  isSecondModalOpen: false,
+  selectedProjectId: null,
 };
 
 export const projectsSlice = createSlice({
   name: "project",
   initialState,
-  reducers: {},
+  reducers: {
+    openAddModal(state) {
+      state.isAddModalOpen = true;
+    },
+    closeAddModal(state) {
+      state.isAddModalOpen = false;
+    },
+    openSecondModal(state, action: PayloadAction<number>) {
+      state.isSecondModalOpen = true;
+      state.selectedProjectId = action.payload;
+    },
+    closeSecondModal(state) {
+      state.isSecondModalOpen = false;
+      state.selectedProjectId = null
+    },
+  },
   extraReducers(builder) {
     //get
     builder.addCase(getAllProjectsThunk.pending, (state) => {
@@ -87,4 +105,11 @@ export const projectsSlice = createSlice({
   },
 });
 
-export default projectsSlice.reducer
+export default projectsSlice.reducer;
+
+export const {
+  openAddModal,
+  closeAddModal,
+  openSecondModal,
+  closeSecondModal,
+} = projectsSlice.actions;
