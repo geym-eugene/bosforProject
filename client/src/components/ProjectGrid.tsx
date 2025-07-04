@@ -1,9 +1,18 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProjectCard from './ProjectCard';
+import { useAppDispatch, useAppSelector } from '@/shared/library/hooks';
+import { getAllProjectsThunk } from '@/entities/projects/model/projectThunks';
 
 const ProjectGrid = () => {
-  const projects = [
+  const dispatch = useAppDispatch();
+    const projects = useAppSelector((store) => store.project.projects);
+  
+    useEffect(() => {
+      void dispatch(getAllProjectsThunk());
+    }, []);
+
+  const projecto = [
     {
       id: 1,
       title: 'Nordic Harmony',
@@ -65,6 +74,18 @@ const ProjectGrid = () => {
       featured: false
     }
   ];
+
+//   export interface ProjectT {
+//   id: number;
+//   title: string;
+//   description: string;
+//   area_m2: number;
+//   floors: number;
+//   material: string;
+//   price: string;
+//   model_3d_url: string;
+//   plan_pdf_url: string;
+// }
 
   return (
     <section className="py-16 bg-white">
