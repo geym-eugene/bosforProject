@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NewProjectT, ProjectT } from "../model/projectType";
 import { patchProjectThunk } from "../model/projectThunks";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
@@ -12,6 +12,9 @@ function SecondModal() {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((store) => store.project.isSecondModalOpen);
   const projectId = useAppSelector((store) => store.project.selectedProjectId);
+  const project = useAppSelector((store) =>
+    store.project.projects.find((oneProject) => oneProject.id === projectId)
+  );
 
   const [form, setForm] = useState<NewProjectT>({
     title: "",
@@ -24,6 +27,22 @@ function SecondModal() {
     model_3d_url: "",
     plan_pdf_url: "",
   });
+
+  useEffect(() => {
+    if (isOpen && project) {
+      setForm({
+        title: project.title,
+        description: project.description,
+        area_m2: project.area_m2,
+        floors: project.floors,
+        material: project.material,
+        price: project.price,
+        image_preview: project.image_preview,
+        model_3d_url: project.model_3d_url,
+        plan_pdf_url: project.plan_pdf_url,
+      });
+    }
+  }, [isOpen, project]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
