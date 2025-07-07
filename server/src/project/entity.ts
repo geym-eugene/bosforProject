@@ -38,6 +38,9 @@ export class Project {
   @Column({ type: 'varchar', nullable: true, default: null })
   plan_pdf_url: string;
 
+  @Column({ type: 'int', nullable: true, default: null })
+  userId: number;
+
   @CreateDateColumn()
   created_at: Date;
 
