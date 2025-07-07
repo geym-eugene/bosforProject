@@ -2,9 +2,10 @@ import { getAllProjectsThunk } from "@/entities/projects/model/projectThunks";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { Download, Eye, Home, Square } from "lucide-react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
-const ProjectDetailPage: React.FC = () => { //Доделать страничку надо
+const ProjectDetailPage: React.FC = () => {
+  //Доделать страничку надо
   const { id } = useParams();
   const projectId = Number(id);
   const dispatch = useAppDispatch();

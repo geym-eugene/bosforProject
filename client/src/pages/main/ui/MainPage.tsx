@@ -6,13 +6,12 @@ import FeatureSection from "../../../components/FeatureSection";
 
 const MainPage = (): React.JSX.Element => {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
+    <>
       <HeroSection />
       <FilterSection />
       <ProjectGrid />
       <FeatureSection />
-    </div>
+    </>
   );
 };
 

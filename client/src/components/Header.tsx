@@ -1,8 +1,19 @@
-
-import React from 'react';
-import { Menu, Search, User } from 'lucide-react';
+import React, { FC } from "react";
+import { Menu, Search, User } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { HashLink } from "react-router-hash-link";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleScroll = () => {
+    navigate("/");
+    setTimeout(() => {
+      const projects = document.getElementById("projects");
+      projects.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
+
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,19 +27,29 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-900 font-medium hover:text-gray-600 transition-colors">
+            <a
+              href="#"
+              className="text-gray-900 font-medium hover:text-gray-600 transition-colors"
+            >
               Home
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
-              Catalog
-            </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <button onClick={() => handleScroll()}>Catalog</button>
+            <a
+              href="#"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
               AI Interior
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
               3D Viewer
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
               Contact
             </a>
           </nav>

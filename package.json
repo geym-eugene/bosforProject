@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-router-hash-link": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/react-router-hash-link": "^2.4.9"
+  }
+}
