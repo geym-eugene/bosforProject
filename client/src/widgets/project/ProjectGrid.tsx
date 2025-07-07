@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProjectCard from "../../entities/projects/ui/ProjectCard";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { getAllProjectsThunk } from "@/entities/projects/model/projectThunks";
@@ -12,12 +12,13 @@ const ProjectGrid = () => {
   }, []);
 
   return (
-    <section id='projects' className="py-16 bg-white">
+    <section id="projects" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.id}
+              projectIndex = {index}
               project={project}
               className={index === 0 ? "md:col-span-2 lg:col-span-2" : ""}
             />
@@ -30,8 +31,6 @@ const ProjectGrid = () => {
 
 export default ProjectGrid;
 
-
-
 //ТУТ КАКОЙТО ФИЧУРЕД ЕСТЬ
 // const projecto = [
 //     {
@@ -43,7 +42,7 @@ export default ProjectGrid;
 //       price: "$89,900",
 //       image:
 //         "https://images.unsplash.com/photo-1518005020951-eccb494ad742?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-//       featured: true, 
+//       featured: true,
 //     },
 //     {
 //       id: 2,
