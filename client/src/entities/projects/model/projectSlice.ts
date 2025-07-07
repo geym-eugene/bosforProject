@@ -14,6 +14,7 @@ const initialState: InitialStateT = {
   isAddModalOpen: false,
   isSecondModalOpen: false,
   selectedProjectId: null,
+  allProjects: true,
 };
 
 export const projectsSlice = createSlice({
@@ -32,7 +33,18 @@ export const projectsSlice = createSlice({
     },
     closeSecondModal(state) {
       state.isSecondModalOpen = false;
-      state.selectedProjectId = null
+      state.selectedProjectId = null;
+    },
+    showPage(state) {
+      state.allProjects = false;
+    },
+    dontShow(state) {
+      state.allProjects = true;
+    },
+    minHundred(state) {
+    state.projects = state.projects.filter(
+        (project) => project.area_m2 > 100
+      );
     },
   },
   extraReducers(builder) {
@@ -112,4 +124,7 @@ export const {
   closeAddModal,
   openSecondModal,
   closeSecondModal,
+  showPage,
+  dontShow,
+  minHundred
 } = projectsSlice.actions;

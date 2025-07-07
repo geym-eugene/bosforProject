@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 import { ChevronDown, Filter, Grid3x3, Home, Square } from "lucide-react";
 import ModalAdding from "@/entities/projects/ui/ModalAdding";
-import { NewProjectT } from "@/entities/projects/model/projectType";
+import {
+  NewProjectT,
+  ProjectsT,
+  ProjectT,
+} from "@/entities/projects/model/projectType";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { addProjectThunk } from "@/entities/projects/model/projectThunks";
 import { openAddModal } from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
+import { minHundred } from "@/entities/projects/model/projectSlice";
 
 const FilterSection = () => {
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [activeFilter, setActiveFilter] = useState({});
   const dispatch = useAppDispatch();
 
   const filters = [
     { id: "all", label: "All Projects", count: 124 },
-    { id: "modern", label: "Modern", count: 48 },
+    {
+      id: "modern",
+      label: "Modern",
+      count: 48,
+      doing: () => dispatch(minHundred()),
+    },
     { id: "scandinavian", label: "Scandinavian", count: 32 },
-    { id: "minimalist", label: "Minimalist", count: 28 },
+    { id: "min 100m2", label: "Minimalist", count: 28 },
     { id: "luxury", label: "Luxury", count: 16 },
   ];
+
+  const doingHandler = (need) => {
+   setActiveFilter(need);
+    console.log(activeFilter);
+    if (activeFilter.doing) activeFilter.doing();
+  };
 
   return (
     <section className="bg-gray-50 py-16">
@@ -37,7 +53,7 @@ const FilterSection = () => {
           {filters.map((filter) => (
             <button
               key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
+              onClick={() => doingHandler(filter)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeFilter === filter.id
                   ? "bg-gray-900 text-white"
