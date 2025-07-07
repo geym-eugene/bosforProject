@@ -3,19 +3,19 @@ import type { NewProjectT } from "../model/projectType";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { closeAddModal } from "../model/projectSlice";
 import { addProjectThunk } from "../model/projectThunks";
-import { useNavigate } from "react-router-dom";
-import { error } from "console";
+import { useNavigate } from "react-router";
 
 const ModalAddProject = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.project.isAddModalOpen);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState<NewProjectT>({
     title: "",
     description: "",
     area_m2: 0,
-    floors: 1,
+    floors: 0,
     material: "",
     price: 0,
     image_preview: "",
@@ -29,17 +29,22 @@ const ModalAddProject = () => {
     const { name, value } = e.target;
     setForm({
       ...form,
-      [name]: ["area_m2", "floors", "price"].includes(name)
-        ? Number(value)
-        : value,
+      [name]: value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(addProjectThunk(form))
+    const validatedForm = {
+      ...form,
+      area_m2: Number(form.area_m2),
+      floors: Number(form.floors),
+      price: Number(form.price),
+    };
+    dispatch(addProjectThunk(validatedForm))
       .unwrap()
-      .then((newProject) => navigate(`/project/${newProject.id}`)).catch(error => console.error)
+      .then((newProject) => navigate(`/project/${newProject.id}`))
+      .catch((error) => console.error);
     dispatch(closeAddModal());
   };
 
@@ -140,6 +145,7 @@ const ModalAddProject = () => {
             >
               Добавить
             </button>
+            {error}
           </div>
         </form>
       </div>

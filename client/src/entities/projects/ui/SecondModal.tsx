@@ -50,15 +50,19 @@ function SecondModal() {
     const { name, value } = e.target;
     setForm({
       ...form,
-      [name]: ["area_m2", "floors", "price"].includes(name)
-        ? Number(value)
-        : value,
+      [name]: value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(patchProjectThunk({ id: projectId, data: form }));
+     const validatedForm = {
+      ...form,
+      area_m2: Number(form.area_m2),
+      floors: Number(form.floors),
+      price: Number(form.price),
+    };
+    dispatch(patchProjectThunk({ id: projectId, data: validatedForm }));
     dispatch(closeSecondModal());
   };
 

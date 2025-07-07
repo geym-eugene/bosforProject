@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/shared/library/hooks";
 import { deleteProjectThunk } from "../model/projectThunks";
 import { openSecondModal } from "../model/projectSlice";
 import SecondModal from "./SecondModal";
+import { useNavigate } from "react-router";
 
 interface ProjectCardProps {
   project: ProjectT;
@@ -21,6 +22,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     dispatch(deleteProjectThunk(id));
   };
 
+  const navigate = useNavigate();
+
   return (
     <div
       className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${className}`}
@@ -28,13 +31,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <img
+          // onClick={}
           src={project.image_preview} // картинку надо
           alt={project.title}
           className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-700"
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          onClick={() => navigate(`/project/${project.id}`)}
+        />
 
         {/* Action Buttons */}
         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
