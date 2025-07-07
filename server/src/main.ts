@@ -12,6 +12,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Bosfor API')
     .setDescription('Документация API для сайта проектирования домов')
+    .addBearerAuth()
     .setVersion('1.0')
     .build();
 

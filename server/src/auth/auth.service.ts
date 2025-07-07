@@ -1,9 +1,15 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
 import { BlacklistService } from './blacklist.service';
 import { User } from '../user/entity';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +19,39 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly blacklistService: BlacklistService,
   ) {}
+
+  async register(
+    dto: RegisterDto,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    const exists = await this.userService.findByEmail(dto.email);
+    if (exists) {
+      throw new ConflictException('Пользователь с таким email уже существует');
+    }
+
+    const user = await this.userService.create({
+      username: dto.username,
+      email: dto.email,
+      hashedPassword: dto.password, // хеширование произойдёт в entity
+    });
+
+    return this.generateTokens(user);
+  }
+
+  async login(
+    dto: LoginDto,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    const user = await this.userService.findByEmailWithPassword(dto.email);
+    if (!user) {
+      throw new UnauthorizedException('Неверные учетные данные');
+    }
+
+    const isValid = await user.comparePassword(dto.password);
+    if (!isValid) {
+      throw new UnauthorizedException('Неверные учетные данные');
+    }
+
+    return this.generateTokens(user);
+  }
 
   // Обновление токенов с полной типизацией
   async refreshTokens(refreshToken: string): Promise<{
