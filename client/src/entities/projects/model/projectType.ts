@@ -32,4 +32,5 @@ export type InitialStateT = {
   isAddModalOpen: boolean;
   isSecondModalOpen: boolean;
   selectedProjectId: number | null;
+  allProjects: boolean
 };

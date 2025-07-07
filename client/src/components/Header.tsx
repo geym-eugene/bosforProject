@@ -6,10 +6,10 @@ import { HashLink } from "react-router-hash-link";
 const Header = () => {
   const navigate = useNavigate();
 
-  const handleScroll = () => {
-    navigate("/");
+  const handleScroll = (page: string, path: string) => {
+    navigate(`${page}`);
     setTimeout(() => {
-      const projects = document.getElementById("projects");
+      const projects = document.getElementById(`${path}`);
       projects.scrollIntoView({ behavior: "smooth" });
     }, 200);
   };
@@ -29,11 +29,16 @@ const Header = () => {
           <nav className="hidden md:flex space-x-8">
             <a
               href="#"
-              className="text-gray-900 font-medium hover:text-gray-600 transition-colors"
+              className="text-gray-900 font-medium hover:text-gray-900 transition-colors"
             >
               Home
             </a>
-            <button onClick={() => handleScroll()}>Catalog</button>
+            <button
+              onClick={() => handleScroll("/", "projects")}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              Catalog
+            </button>
             <a
               href="#"
               className="text-gray-600 hover:text-gray-900 transition-colors"
@@ -46,12 +51,12 @@ const Header = () => {
             >
               3D Viewer
             </a>
-            <a
-              href="#"
+            <button
+              onClick={() => handleScroll("/", "projects")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               Contact
-            </a>
+            </button>
           </nav>
 
           {/* Actions */}

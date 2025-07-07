@@ -1,20 +1,21 @@
 import React from "react";
 import { Eye, Heart, Download, Square, Home } from "lucide-react";
 import type { ProjectT } from "@/entities/projects/model/projectType";
-import { useAppDispatch } from "@/shared/library/hooks";
+import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { deleteProjectThunk } from "../model/projectThunks";
 import { openSecondModal } from "../model/projectSlice";
-import SecondModal from "./SecondModal";
 import { useNavigate } from "react-router";
 
 interface ProjectCardProps {
   project: ProjectT;
   className?: string;
+  projectIndex: number;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   className = "",
+  projectIndex,
 }: ProjectCardProps) => {
   const dispatch = useAppDispatch();
 
@@ -22,7 +23,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     dispatch(deleteProjectThunk(id));
   };
 
+  const allProjects = useAppSelector((store) => store.project.allProjects);
+
   const navigate = useNavigate();
+
+  if (allProjects && projectIndex > 1) return null;
 
   return (
     <div
