@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectModule } from '../project/project.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { ProjectModule } from '../project/project.module';
       synchronize: true, // ❗Отключить в продакшене
     }),
     ProjectModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
