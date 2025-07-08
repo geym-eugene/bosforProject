@@ -9,14 +9,16 @@ import NotFound from "@/pages/NotFound";
 import SignPage from "@/pages/auth-page/SignPage";
 import ProjectDetailPage from "@/pages/project-page/ProjectPage";
 import Layout from "./Layout";
+import UserPage from "@/pages/user-page/UserPage";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<MainPage />} />
-        <Route path="/reg" element={<SignPage />}></Route>
-        <Route path="/project/:id" element={<ProjectDetailPage />}></Route>
+        <Route path="/reg" element={<SignPage />} />
+        <Route path="/project/:id" element={<ProjectDetailPage />} />
+        <Route path="/user" element={<UserPage />} />
         {/* <Route element={<ProtectedRoute isAllowed={isLogged} redirectTo="/" />}> */}
         {/* <Route path="/main" element={<MainPage />}></Route> */}
         {/* </Route> */}

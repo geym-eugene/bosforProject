@@ -48,7 +48,7 @@ export const projectsSlice = createSlice({
       );
     },
     noFilter(state) {
-      state.projectsFiltered = state.projects;
+      state.projectsFiltered = [...state.projects];
     },
   },
   extraReducers(builder) {

@@ -6,12 +6,14 @@ import { HashLink } from "react-router-hash-link";
 const Header = () => {
   const navigate = useNavigate();
 
-  const handleScroll = (page: string, path: string) => {
+  const handleScroll = (page: string, path: string | null) => {
     navigate(`${page}`);
-    setTimeout(() => {
-      const projects = document.getElementById(`${path}`);
-      projects.scrollIntoView({ behavior: "smooth" });
-    }, 200);
+    if (path) {
+      setTimeout(() => {
+        const projects = document.getElementById(`${path}`);
+        projects.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+    }
   };
 
   return (
@@ -27,12 +29,12 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a
-              href="#"
-              className="text-gray-900 font-medium hover:text-gray-900 transition-colors"
+            <button
+              onClick={() => handleScroll("/", null)}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               Home
-            </a>
+            </button>
             <button
               onClick={() => handleScroll("/", "projects")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
@@ -64,7 +66,10 @@ const Header = () => {
             <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Search className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <button
+              onClick={() => navigate("/user")}
+              className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            >
               <User className="h-5 w-5" />
             </button>
             <button className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors">
