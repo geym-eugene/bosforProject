@@ -15,11 +15,18 @@ import {
 } from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
 
+interface FilterI {
+  id: string;
+  label: string;
+  count: number;
+  doing?: () => void;
+}
+
 const FilterSection = () => {
-  const [activeFilter, setActiveFilter] = useState({});
+  const [activeFilter, setActiveFilter] = useState<FilterI | null>(null);
   const dispatch = useAppDispatch();
 
-  const filters = [
+  const filters: FilterI[] = [
     {
       id: "all",
       label: "All Projects/все проекты",
@@ -32,17 +39,15 @@ const FilterSection = () => {
       count: 48,
       doing: () => dispatch(minHundred()),
     },
-    { id: "scandinavian", label: "Scandinavian", count: 32,},
+    { id: "scandinavian", label: "Scandinavian", count: 32 },
     { id: "min 100m2", label: "Minimalist", count: 28 },
     { id: "luxury", label: "Luxury", count: 16 },
   ];
 
   const doingHandler = (chosenFilter) => {
+    chosenFilter?.doing();
     setActiveFilter(chosenFilter);
-    if (chosenFilter.doing) chosenFilter.doing();
   };
-
-  console.log("activeFilter:", activeFilter);
 
   return (
     <section className="bg-gray-50 py-16">
@@ -64,7 +69,7 @@ const FilterSection = () => {
               key={filter.id}
               onClick={() => doingHandler(filter)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeFilter === filter.id
+                activeFilter?.id === filter.id
                   ? "bg-gray-900 text-white"
                   : "bg-white text-gray-700 hover:bg-gray-100"
               }`}
