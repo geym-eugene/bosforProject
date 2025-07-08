@@ -16,6 +16,7 @@ const initialState: InitialStateT = {
   isSecondModalOpen: false,
   selectedProjectId: null,
   showProjectState: true,
+  rangeFilter: 0,
 };
 
 export const projectsSlice = createSlice({
@@ -49,6 +50,13 @@ export const projectsSlice = createSlice({
     },
     noFilter(state) {
       state.projectsFiltered = [...state.projects];
+    },
+    setRangeFilter(state, action: PayloadAction<number>) {
+      state.rangeFilter = action.payload;
+
+      state.projectsFiltered = state.projects.filter(
+        (el) => el.price <= state.rangeFilter
+      );
     },
   },
   extraReducers(builder) {
@@ -147,4 +155,5 @@ export const {
   dontShow,
   minHundred,
   noFilter,
+  setRangeFilter,
 } = projectsSlice.actions;

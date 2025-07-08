@@ -20,7 +20,7 @@ export class UserService {
   async findById(id: number): Promise<User | null> {
     return this.userRepo.findOne({
       where: { id },
-      select: ['id', 'email', 'role'], // Выбираем только нужные поля
+      select: ['id', 'email', 'role', 'username', 'avatar'], // Выбираем только нужные поля
     });
   }
 

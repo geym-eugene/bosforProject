@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { ChevronDown, Filter, Grid3x3, Home, Square } from "lucide-react";
 import ModalAdding from "@/entities/projects/ui/ModalAdding";
 import {
@@ -12,6 +12,7 @@ import {
   noFilter,
   openAddModal,
   minHundred,
+  setRangeFilter,
 } from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
 
@@ -25,6 +26,25 @@ interface FilterI {
 const FilterSection = () => {
   const [activeFilter, setActiveFilter] = useState<FilterI | null>(null);
   const dispatch = useAppDispatch();
+  const rangeFilterValue = useAppSelector((state) => state.project.rangeFilter);
+
+  const onRangeInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setRangeFilter(Number(e.target.value)));
+    console.log(rangeFilterValue);
+  };
+
+  function formatMoneyShort(amount) {
+    if (amount >= 1_000_000_000) {
+      return (amount / 1_000_000_000).toFixed(1).replace(/\.0/, "") + "B";
+    }
+    if (amount >= 1_000_000) {
+      return (amount / 1_000_000).toFixed(1).replace(/\.0/, "") + "M";
+    }
+    if (amount >= 1_000) {
+      return (amount / 1_000).toFixed(1).replace(/\.0/, "") + "K";
+    }
+    return amount.toString();
+  }
 
   const filters: FilterI[] = [
     {
@@ -92,7 +112,29 @@ const FilterSection = () => {
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
           </div>
-
+          <div className="relative mb-6">
+            <div className="text">
+              Максимальная цена {formatMoneyShort(rangeFilterValue)} ₽
+            </div>
+            <label htmlFor="labels-range-input" className="sr-only">
+              Labels range
+            </label>
+            <input
+              id="labels-range-input"
+              type="range"
+              value={rangeFilterValue}
+              onChange={onRangeInputChange}
+              min="1"
+              max="100000000"
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            />
+            <span className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">
+              Min (1 ₽)
+            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">
+              Max (100000000 ₽)
+            </span>
+          </div>
           <div className="relative">
             <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
               <option>Area (sq ft)</option>
