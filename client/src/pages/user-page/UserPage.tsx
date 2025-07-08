@@ -1,10 +1,9 @@
-import React from 'react'
+import { useAppSelector } from "@/shared/library/hooks";
+import React from "react";
 
 function UserPage() {
-    
-  return (
-    <div>UserPage</div>
-  )
+  const user = useAppSelector((state) => state.user);
+  return <div>UserPage</div>;
 }
 
-export default UserPage
+export default UserPage;

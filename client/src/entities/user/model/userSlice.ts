@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { UserStatType } from './userType';
-import { logout, refresh, signin, signup } from './userThunks';
+import { createSlice } from "@reduxjs/toolkit";
+import type { UserStatType } from "./userType";
+import { getCurrentUser, logout, refresh, signin, signup } from "./userThunks";
 
 // начальное состояние юзера
 const initialState: UserStatType = {
@@ -11,7 +11,7 @@ const initialState: UserStatType = {
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
   // Экстроредьюсер прописываем дополнительный редуктор (передаем конструктор)
@@ -25,7 +25,7 @@ export const userSlice = createSlice({
     //  rejected ошибка
     builder.addCase(signup.rejected, (state, action) => {
       console.log(action.error.message);
-      state.error = action.error.message ?? 'Что-то не так';
+      state.error = action.error.message ?? "Что-то не так";
       state.loading = false;
     });
     // fulfilled добавление
@@ -45,7 +45,7 @@ export const userSlice = createSlice({
     //  rejected ошибка
     builder.addCase(signin.rejected, (state, action) => {
       console.log(action.error.message);
-      state.error = action.error.message ?? 'Что-то не так';
+      state.error = action.error.message ?? "Что-то не так";
       state.loading = false;
     });
     // fulfilled добавление
@@ -65,7 +65,7 @@ export const userSlice = createSlice({
     //  rejected ошибка
     builder.addCase(refresh.rejected, (state, action) => {
       console.log(action.error.message);
-      state.error = action.error.message ?? 'Что-то не так';
+      state.error = action.error.message ?? "Что-то не так";
       state.loading = false;
     });
     // fulfilled добавлени
@@ -84,7 +84,7 @@ export const userSlice = createSlice({
     //  rejected ошибка
     builder.addCase(logout.rejected, (state, action) => {
       console.log(action.error.message);
-      state.error = action.error.message ?? 'Что-то не так';
+      state.error = action.error.message ?? "Что-то не так";
       state.loading = false;
     });
     // fulfilled добавлени
@@ -92,6 +92,11 @@ export const userSlice = createSlice({
       state.user = null;
       state.loading = false;
       state.error = null;
+    });
+
+    builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+      console.log(123, state.user);
     });
   },
 });
