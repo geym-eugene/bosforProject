@@ -23,11 +23,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     dispatch(deleteProjectThunk(id));
   };
 
-  const allProjects = useAppSelector((store) => store.project.allProjects);
+  const showProjectState = useAppSelector((store) => store.project.showProjectState);
 
   const navigate = useNavigate();
 
-  if (allProjects && projectIndex > 1) return null;
+  if (showProjectState && projectIndex > 1) return null;
 
   return (
     <div

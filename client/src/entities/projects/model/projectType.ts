@@ -27,10 +27,11 @@ export type NewProjectT = {
 
 export type InitialStateT = {
   projects: ProjectsT;
+  projectsFiltered: ProjectsT;
   loading: boolean;
   error: string | null;
   isAddModalOpen: boolean;
   isSecondModalOpen: boolean;
   selectedProjectId: number | null;
-  allProjects: boolean
+  showProjectState: boolean;
 };
