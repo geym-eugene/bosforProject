@@ -1,8 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
+import { UserResponseDto } from 'src/user/dto/user-response.dto';
+import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Auth')
 @Controller('api/auth')
@@ -11,7 +14,8 @@ export class AuthController {
 
   @Post('refresh')
   @ApiOperation({ summary: 'Получить рефреш токен' })
-  async refresh(@Body('refreshToken') token: string) {
+  async refresh(@Req() req: Request) {
+    const token: string = req.cookies['refreshToken'] as string;
     return this.authService.refreshTokens(token);
   }
 
@@ -24,13 +28,54 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ summary: 'Регистрация нового пользователя' })
-  register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
+  async register(
+    @Body() dto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<{ user: UserResponseDto; accessToken: string }> {
+    const { user, accessToken, refreshToken } =
+      await this.authService.register(dto);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    const safeUser = plainToInstance(UserResponseDto, user, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      user: safeUser,
+      accessToken,
+    };
   }
 
   @Post('login')
-  @ApiOperation({ summary: 'Логин пользователя' })
-  login(@Body() dto: LoginDto) {
-    return this.authService.login(dto);
+  async login(
+    @Body() dto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<{ user: UserResponseDto; accessToken: string }> {
+    const { accessToken, refreshToken, user } =
+      await this.authService.login(dto);
+
+    // Ставим куку
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // Возвращаем user без password
+    const safeUser = plainToInstance(UserResponseDto, user, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      user: safeUser,
+      accessToken,
+    };
   }
 }
