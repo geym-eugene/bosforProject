@@ -8,32 +8,41 @@ import {
 } from "@/entities/projects/model/projectType";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { addProjectThunk } from "@/entities/projects/model/projectThunks";
-import { openAddModal } from "@/entities/projects/model/projectSlice";
+import {
+  noFilter,
+  openAddModal,
+  minHundred,
+} from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
-import { minHundred } from "@/entities/projects/model/projectSlice";
 
 const FilterSection = () => {
   const [activeFilter, setActiveFilter] = useState({});
   const dispatch = useAppDispatch();
 
   const filters = [
-    { id: "all", label: "All Projects", count: 124 },
+    {
+      id: "all",
+      label: "All Projects/все проекты",
+      count: 124,
+      doing: () => dispatch(noFilter()),
+    },
     {
       id: "modern",
-      label: "Modern",
+      label: "Modern /минимум 100м2",
       count: 48,
       doing: () => dispatch(minHundred()),
     },
-    { id: "scandinavian", label: "Scandinavian", count: 32 },
+    { id: "scandinavian", label: "Scandinavian", count: 32,},
     { id: "min 100m2", label: "Minimalist", count: 28 },
     { id: "luxury", label: "Luxury", count: 16 },
   ];
 
-  const doingHandler = (need) => {
-   setActiveFilter(need);
-    console.log(activeFilter);
-    if (activeFilter.doing) activeFilter.doing();
+  const doingHandler = (chosenFilter) => {
+    setActiveFilter(chosenFilter);
+    if (chosenFilter.doing) chosenFilter.doing();
   };
+
+  console.log("activeFilter:", activeFilter);
 
   return (
     <section className="bg-gray-50 py-16">
