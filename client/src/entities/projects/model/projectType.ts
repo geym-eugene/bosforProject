@@ -34,4 +34,5 @@ export type InitialStateT = {
   isSecondModalOpen: boolean;
   selectedProjectId: number | null;
   showProjectState: boolean;
+  rangeFilter: number
 };

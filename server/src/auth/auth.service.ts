@@ -79,7 +79,7 @@ export class AuthService {
         secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
       });
 
-      const user = await this.userService.findById(payload.id); //надо дописать юзерсервис
+      const user = await this.userService.findById(payload.id); // дописали юзерсервис, Женя (>:D -> amogusSmile)
       if (!user) {
         throw new UnauthorizedException('User not found');
       }
@@ -110,9 +110,14 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
+    const { id, email, role, avatar, username } = user;
+
     const payload = {
-      id: user.id,
-      email: user.email,
+      id,
+      email,
+      username,
+      role,
+      avatar,
     };
 
     const [accessToken, refreshToken] = await Promise.all([
