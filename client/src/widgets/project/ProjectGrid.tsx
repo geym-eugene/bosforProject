@@ -5,7 +5,7 @@ import { getAllProjectsThunk } from "@/entities/projects/model/projectThunks";
 
 const ProjectGrid = () => {
   const dispatch = useAppDispatch();
-  const projects = useAppSelector((store) => store.project.projects);
+  const projects = useAppSelector((store) => store.project.projectsFiltered);
 
   useEffect(() => {
     void dispatch(getAllProjectsThunk());

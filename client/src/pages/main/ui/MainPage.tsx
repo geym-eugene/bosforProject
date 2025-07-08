@@ -8,7 +8,7 @@ import { dontShow, showPage } from "@/entities/projects/model/projectSlice";
 import { useState } from "react";
 
 const MainPage = (): React.JSX.Element => {
-  const allProjects = useAppSelector((store) => store.project.allProjects);
+  const showAllProjects = useAppSelector((store) => store.project.showProjectState);
   const dispatch = useAppDispatch();
 
   return (
@@ -16,7 +16,7 @@ const MainPage = (): React.JSX.Element => {
       <HeroSection />
       <FilterSection />
       <ProjectGrid />
-     {allProjects && <div style={{ display: "flex", justifyContent: "center" }}>
+     {showAllProjects && <div style={{ display: "flex", justifyContent: "center" }}>
         <button
           onClick={() => setTimeout(() => dispatch(showPage()), 100)}
           style={{

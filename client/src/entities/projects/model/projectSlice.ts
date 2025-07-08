@@ -9,12 +9,13 @@ import {
 
 const initialState: InitialStateT = {
   projects: [],
+  projectsFiltered: [],
   loading: false,
   error: null,
   isAddModalOpen: false,
   isSecondModalOpen: false,
   selectedProjectId: null,
-  allProjects: true,
+  showProjectState: true,
 };
 
 export const projectsSlice = createSlice({
@@ -36,15 +37,18 @@ export const projectsSlice = createSlice({
       state.selectedProjectId = null;
     },
     showPage(state) {
-      state.allProjects = false;
+      state.showProjectState = false;
     },
     dontShow(state) {
-      state.allProjects = true;
+      state.showProjectState = true;
     },
     minHundred(state) {
-    state.projects = state.projects.filter(
+      state.projectsFiltered = state.projects.filter(
         (project) => project.area_m2 > 100
       );
+    },
+    noFilter(state) {
+      state.projectsFiltered = state.projects;
     },
   },
   extraReducers(builder) {
@@ -59,6 +63,7 @@ export const projectsSlice = createSlice({
     });
     builder.addCase(getAllProjectsThunk.fulfilled, (state, action) => {
       state.projects = action.payload;
+      state.projectsFiltered = action.payload;
       state.loading = false;
       state.error = null;
     });
@@ -73,6 +78,7 @@ export const projectsSlice = createSlice({
     });
     builder.addCase(addProjectThunk.fulfilled, (state, action) => {
       state.projects.push(action.payload);
+      state.projectsFiltered.push(action.payload);
       state.loading = false;
       state.error = null;
     });
@@ -89,6 +95,9 @@ export const projectsSlice = createSlice({
       state.projects = state.projects.filter(
         (project) => project.id !== action.payload
       );
+      state.projectsFiltered = state.projectsFiltered.filter(
+        (project) => project.id !== action.payload
+      );
       state.loading = false;
       state.error = null;
     });
@@ -102,12 +111,22 @@ export const projectsSlice = createSlice({
       state.error = action.error.message;
     });
     builder.addCase(patchProjectThunk.fulfilled, (state, action) => {
-      const index = state.projects.findIndex(
+      const indexNF = state.projects.findIndex(
+        (project) => project.id === action.meta.arg.id
+      );
+      if (indexNF !== -1) {
+        state.projects[indexNF] = {
+          ...state.projects[indexNF],
+          ...action.payload,
+        };
+      }
+
+      const index = state.projectsFiltered.findIndex(
         (project) => project.id === action.meta.arg.id
       );
       if (index !== -1) {
-        state.projects[index] = {
-          ...state.projects[index],
+        state.projectsFiltered[index] = {
+          ...state.projectsFiltered[index],
           ...action.payload,
         };
       }
@@ -126,5 +145,6 @@ export const {
   closeSecondModal,
   showPage,
   dontShow,
-  minHundred
+  minHundred,
+  noFilter,
 } = projectsSlice.actions;
