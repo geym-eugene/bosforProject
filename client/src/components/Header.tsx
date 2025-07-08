@@ -2,9 +2,14 @@ import React, { FC } from "react";
 import { Menu, Search, User } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { HashLink } from "react-router-hash-link";
+import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
+import { store } from "@/app/store/store";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const user = useAppSelector(store => store.user.user )
+  const dispatch = useAppDispatch()
 
   const handleScroll = (page: string, path: string | null) => {
     navigate(`${page}`);
@@ -70,7 +75,7 @@ const Header = () => {
               onClick={() => navigate("/user")}
               className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
-              <User className="h-5 w-5" />
+             Привет {user?.username || "Гость"} <User className="h-5 w-5" />
             </button>
             <button className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Menu className="h-5 w-5" />
