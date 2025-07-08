@@ -22,7 +22,7 @@ class UserService {
   }
 
   async refresh(): Promise<UserType> {
-    const response = await this.client.get("/auth/refresh");
+    const response = await this.client.post("/auth/refresh");
     return authApiResponseSchema.parse(response.data).user;
   }
 
