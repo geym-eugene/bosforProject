@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('projects')
@@ -46,4 +47,7 @@ export class Project {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Project, (project) => project.userId)
+  projects: Project[];
 }
