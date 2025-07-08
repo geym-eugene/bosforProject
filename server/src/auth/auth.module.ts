@@ -6,6 +6,7 @@ import { UserModule } from '../user/user.module';
 import { BlacklistService } from './blacklist.service';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { AuthController } from './auth.controller';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, BlacklistService],
+  providers: [AuthService, BlacklistService, JwtStrategy],
   exports: [AuthService, JwtModule],
   controllers: [AuthController],
 })

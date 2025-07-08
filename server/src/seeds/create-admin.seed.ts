@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { User, UserRole } from '../user/entity';
-import * as bcrypt from 'bcrypt';
+import 'dotenv/config';
 
 // Создаём DataSource вручную для seed-скрипта
 const AppDataSource = new DataSource({
@@ -11,7 +11,7 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   entities: [User],
-  synchronize: false, // чтобы не дропнуть таблицы случайно
+  synchronize: true, // чтобы не дропнуть таблицы случайно
 });
 
 async function seed() {
@@ -22,17 +22,16 @@ async function seed() {
   const existing = await userRepo.findOne({
     where: { email: 'admin@bosfor.com' },
   });
-  if (existing) {
-    console.log('⚠️ Админ уже существует');
-    return;
-  }
 
-  const hashedPassword = await bcrypt.hash('admin123', 10);
+  if (existing) {
+    console.log('⚠️ Админ уже существует — удаляю...');
+    await userRepo.remove(existing); // Удаляем
+  }
 
   const admin = userRepo.create({
     username: 'superadmin',
     email: 'admin@bosfor.com',
-    hashedPassword,
+    hashedPassword: 'admin123',
     role: UserRole.ADMIN,
   });
 

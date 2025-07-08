@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
@@ -10,6 +6,8 @@ import { BlacklistService } from './blacklist.service';
 import { User } from '../user/entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { UserResponseDto } from 'src/user/dto/user-response.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class AuthService {
@@ -20,37 +18,47 @@ export class AuthService {
     private readonly blacklistService: BlacklistService,
   ) {}
 
-  async register(
-    dto: RegisterDto,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
-    const exists = await this.userService.findByEmail(dto.email);
-    if (exists) {
-      throw new ConflictException('Пользователь с таким email уже существует');
-    }
-
+  async register(dto: RegisterDto): Promise<{
+    accessToken: string;
+    refreshToken: string;
+    user: UserResponseDto;
+  }> {
     const user = await this.userService.create({
       username: dto.username,
       email: dto.email,
-      hashedPassword: dto.password, // хеширование произойдёт в entity
+      hashedPassword: dto.password,
     });
 
-    return this.generateTokens(user);
+    const tokens = await this.generateTokens(user);
+
+    const safeUser = plainToInstance(UserResponseDto, user, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      user: safeUser,
+    };
   }
 
-  async login(
-    dto: LoginDto,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  async login(dto: LoginDto): Promise<{
+    accessToken: string;
+    refreshToken: string;
+    user: User;
+  }> {
     const user = await this.userService.findByEmailWithPassword(dto.email);
-    if (!user) {
-      throw new UnauthorizedException('Неверные учетные данные');
-    }
+    if (!user) throw new UnauthorizedException('Неверные данные');
 
     const isValid = await user.comparePassword(dto.password);
-    if (!isValid) {
-      throw new UnauthorizedException('Неверные учетные данные');
-    }
+    if (!isValid) throw new UnauthorizedException('Неверные данные');
 
-    return this.generateTokens(user);
+    const tokens = await this.generateTokens(user);
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      user,
+    };
   }
 
   // Обновление токенов с полной типизацией
