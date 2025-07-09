@@ -70,7 +70,7 @@ export const userSlice = createSlice({
     });
     // fulfilled добавлени
     builder.addCase(refresh.fulfilled, (state, action) => {
-      state.user = action.payload;
+      // state.user = action.payload;
       state.loading = false;
       state.error = null;
     });
@@ -96,7 +96,6 @@ export const userSlice = createSlice({
 
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
       state.user = action.payload;
-      console.log(123, state.user);
     });
   },
 });
