@@ -3,10 +3,15 @@ import { authApiResponseSchema } from "../model/userSchems";
 import type {
   SigninFormType,
   SignupFormType,
+  UsersT,
   UserType,
 } from "../model/userType";
 import axiosInstance from "@/shared/api/axiosInstanse";
 import { jwtDecode } from "jwt-decode";
+
+export type objectRoleT = {
+role : string
+}
 
 class UserService {
   constructor(private readonly client: AxiosInstance) {}
@@ -37,6 +42,29 @@ class UserService {
     await this.client.post("/auth/logout");
     return null;
   }
+
+  async getAllUsersService(): Promise<UsersT> {
+    return (await this.client.get("/users")).data;
+  }
+
+
+
+  async giveAdminRole(id: number, rol: objectRoleT): Promise<void> {
+    console.log(rol);
+    const role = {
+      role: rol
+    }
+
+      const response = await this.client.patch(`/users/${id}/role`, role);
+      
+      console.log(response.data);
+      return response.data;
+      
+   
+  }
+  // async getThatUserService(id: number): Promise<UserType> {
+  //   return (await this.client.get(`/user/:${id.toString()}`)).data;
+  // }
 }
 
 export default new UserService(axiosInstance);

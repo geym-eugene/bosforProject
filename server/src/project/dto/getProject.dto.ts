@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { MaterialType, RoofType, StyleType } from '../entity';
 
 export class GetProjectDto {
   @ApiProperty({ example: 1 })
@@ -16,8 +17,14 @@ export class GetProjectDto {
   @ApiProperty({ example: 2 })
   floors?: number;
 
-  @ApiProperty({ example: 'дерево' })
-  material?: string;
+  @ApiProperty({ example: 'сип-панель' })
+  material: MaterialType;
+
+  @ApiProperty({ example: 'плоская' })
+  roof: RoofType;
+
+  @ApiProperty({ example: 'хай-тек' })
+  style: StyleType;
 
   @ApiProperty({ example: 14500000 })
   price?: number;

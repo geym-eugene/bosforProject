@@ -14,16 +14,36 @@ export class AuthController {
 
   @Post('refresh')
   @ApiOperation({ summary: 'Получить рефреш токен' })
-  async refresh(@Req() req: Request) {
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<{ user: UserResponseDto; accessToken: string }> {
     const token: string = req.cookies['refreshToken'] as string;
-    return this.authService.refreshTokens(token);
+    const { user, accessToken, refreshToken } =
+      await this.authService.refreshTokens(token);
+
+    // Обновляем refresh токен в cookie
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    const safeUser = plainToInstance(UserResponseDto, user, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      user: safeUser,
+      accessToken,
+    };
   }
 
   @Post('logout')
-  @ApiOperation({ summary: 'Выполнить выход' })
-  async logout(@Body('refreshToken') token: string) {
-    await this.authService.logout(token);
-    return { message: 'Logged out successfully' };
+  @ApiOperation({ summary: 'Выход из системы (очищает refreshToken)' })
+  logout(@Req() req: Request, @Res() res: Response) {
+    return this.authService.logout(req, res);
   }
 
   @Post('register')

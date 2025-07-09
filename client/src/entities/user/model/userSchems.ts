@@ -1,10 +1,11 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // cxeма для возвращения юзера
 export const userSchema = z.object({
   id: z.number(),
   username: z.string(),
   email: z.string(),
+  role: z.string().optional(),
 });
 
 // схема для регистрации
@@ -16,7 +17,10 @@ export const signupSchema = z.object({
 });
 
 // схема для входа (прописываем true и убираем все лишнее)
-export const signinSchema = signupSchema.omit({ username: true, confirmPassword: true });
+export const signinSchema = signupSchema.omit({
+  username: true,
+  confirmPassword: true,
+});
 
 // для проверки авторизации напишем схему (то что нам возвращается)
 export const authApiResponseSchema = z.object({

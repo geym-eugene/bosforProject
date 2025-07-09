@@ -7,6 +7,24 @@ import {
   OneToMany,
 } from 'typeorm';
 
+export enum MaterialType {
+  WOOD = 'дерево',
+  BRICK = 'кирпич',
+  SIP = 'сип-панель',
+}
+
+export enum RoofType {
+  FLAT = 'плоская',
+  GABLE = 'двускатная',
+  HIP = 'четырёхскатная',
+}
+
+export enum StyleType {
+  MINIMALISM = 'минимализм',
+  SCANDI = 'сканди',
+  HIGH_TECH = 'хай-тек',
+}
+
 @Entity('projects')
 export class Project {
   @PrimaryGeneratedColumn()
@@ -24,8 +42,14 @@ export class Project {
   @Column({ type: 'int', nullable: true, default: null })
   floors: number;
 
-  @Column({ type: 'varchar', nullable: true, default: null })
-  material: string;
+  @Column({ type: 'enum', enum: MaterialType, default: null })
+  material: MaterialType;
+
+  @Column({ type: 'enum', enum: RoofType, default: null })
+  roof: RoofType;
+
+  @Column({ type: 'enum', enum: StyleType, default: null })
+  style: StyleType;
 
   @Column({ type: 'decimal', nullable: true, default: null })
   price: number;

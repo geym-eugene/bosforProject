@@ -5,7 +5,9 @@ import {
   IsOptional,
   IsNumber,
   IsPositive,
+  IsEnum,
 } from 'class-validator';
+import { MaterialType, RoofType, StyleType } from '../entity';
 
 export class CreateProjectDto {
   @ApiProperty({ example: 'Дом Сканди' })
@@ -32,10 +34,20 @@ export class CreateProjectDto {
   @IsPositive()
   floors?: number;
 
-  @ApiProperty({ example: 'дерево' })
+  @ApiProperty({ example: 'сип-панель' })
   @IsOptional()
-  @IsString()
-  material?: string;
+  @IsEnum(MaterialType)
+  material: MaterialType;
+
+  @ApiProperty({ example: 'плоская' })
+  @IsOptional()
+  @IsEnum(RoofType)
+  roof: RoofType;
+
+  @ApiProperty({ example: 'хай-тек' })
+  @IsOptional()
+  @IsEnum(StyleType)
+  style: StyleType;
 
   @ApiProperty({ example: 14500000 })
   @IsOptional()

@@ -6,8 +6,10 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Favorite } from 'src/favorite/entity';
 
 export enum UserRole {
   USER = 'user',
@@ -38,6 +40,9 @@ export class User {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  favorites: Favorite[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
