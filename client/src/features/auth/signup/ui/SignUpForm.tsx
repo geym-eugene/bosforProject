@@ -1,6 +1,7 @@
 import { signup } from "@/entities/user/model/userThunks";
 import { useAppDispatch } from "@/shared/library/hooks";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 function SignUpForm({
   logReg,
@@ -18,6 +19,8 @@ function SignUpForm({
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
@@ -42,7 +45,9 @@ function SignUpForm({
     }
 
     if (
-      formData.password.split("").every((c) => c.toLowerCase() === c.toUpperCase())
+      formData.password
+        .split("")
+        .every((c) => c.toLowerCase() === c.toUpperCase())
     ) {
       setError("Пароль должен содержать цифры или спецсимволы");
       return;
@@ -52,8 +57,8 @@ function SignUpForm({
 
     dispatch(signup(formData))
       .unwrap()
+      .then(() => navigate("/"))
       .catch(() => {
-        setError("Ошибка регистрации");
         setLoading(false);
       });
   };
@@ -69,7 +74,9 @@ function SignUpForm({
       className="w-full max-w-md mx-auto p-8 bg-white rounded-xl shadow-md space-y-6"
       onSubmit={onSubmit}
     >
-      <h2 className="text-2xl font-bold text-center text-gray-800">Регистрация</h2>
+      <h2 className="text-2xl font-bold text-center text-gray-800">
+        Регистрация
+      </h2>
 
       <input
         name="username"
@@ -108,15 +115,15 @@ function SignUpForm({
         autoComplete="new-password"
       />
 
-      {error && (
-        <div className="text-sm text-red-600 text-center">{error}</div>
-      )}
+      {error && <div className="text-sm text-red-600 text-center">{error}</div>}
 
       <button
         type="submit"
         disabled={!isValid || loading}
         className={`w-full bg-blue-600 text-white py-2 rounded font-semibold transition duration-200 ${
-          !isValid || loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+          !isValid || loading
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-blue-700"
         }`}
       >
         {loading ? "Регистрация..." : "Зарегистрироваться"}
