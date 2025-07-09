@@ -32,11 +32,15 @@ export class UserController {
     return plainToInstance(GetUserDto, users);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Get(':id')
   async getUser(@Param('id') id: number) {
     return this.userService.findById(id);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Patch(':id/role')

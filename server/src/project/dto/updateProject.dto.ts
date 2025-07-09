@@ -1,5 +1,12 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsNumber, IsPositive } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsPositive,
+  IsEnum,
+} from 'class-validator';
+import { MaterialType, RoofType, StyleType } from '../entity';
 
 export class UpdateProjectDto {
   @ApiPropertyOptional({ example: 'Обновлённый проект' })
@@ -24,10 +31,20 @@ export class UpdateProjectDto {
   @IsPositive()
   floors?: number;
 
-  @ApiPropertyOptional({ example: 'газобетон' })
+  @ApiPropertyOptional({ example: 'сип-панель' })
   @IsOptional()
-  @IsString()
-  material?: string;
+  @IsEnum(MaterialType)
+  material: MaterialType;
+
+  @ApiPropertyOptional({ example: 'плоская' })
+  @IsOptional()
+  @IsEnum(RoofType)
+  roof: RoofType;
+
+  @ApiPropertyOptional({ example: 'хай-тек' })
+  @IsOptional()
+  @IsEnum(StyleType)
+  style: StyleType;
 
   @ApiPropertyOptional({ example: 17000000 })
   @IsOptional()
