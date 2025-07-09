@@ -8,6 +8,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserResponseDto } from 'src/user/dto/user-response.dto';
 import { plainToInstance } from 'class-transformer';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -79,7 +80,7 @@ export class AuthService {
         secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
       });
 
-      const user = await this.userService.findById(payload.id); // дописали юзерсервис, Женя (>:D -> amogusSmile)
+      const user = await this.userService.findById(payload.id);
       if (!user) {
         throw new UnauthorizedException('User not found');
       }
@@ -92,17 +93,23 @@ export class AuthService {
   }
 
   // Выход из системы с проверкой
-  async logout(refreshToken: string): Promise<void> {
+  async logout(req: Request, res: Response): Promise<void> {
     try {
-      // Проверяем валидность токена перед добавлением в чёрный список
-      await this.jwtService.verifyAsync(refreshToken, {
-        secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
-      });
-      this.blacklistService.addToBlacklist(refreshToken);
+      const token = req.cookies['refreshToken'] as string;
+
+      if (token) {
+        await this.jwtService.verifyAsync(token, {
+          secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
+        });
+
+        this.blacklistService.addToBlacklist(token);
+      }
     } catch (error) {
       console.log(error);
-      throw new UnauthorizedException('Invalid token');
     }
+
+    res.clearCookie('refreshToken');
+    res.sendStatus(200);
   }
 
   // Генерация новых токенов (добавляем полную типизацию)

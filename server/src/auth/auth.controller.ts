@@ -20,10 +20,9 @@ export class AuthController {
   }
 
   @Post('logout')
-  @ApiOperation({ summary: 'Выполнить выход' })
-  async logout(@Body('refreshToken') token: string) {
-    await this.authService.logout(token);
-    return { message: 'Logged out successfully' };
+  @ApiOperation({ summary: 'Выход из системы (очищает refreshToken)' })
+  logout(@Req() req: Request, @Res() res: Response) {
+    return this.authService.logout(req, res);
   }
 
   @Post('register')
