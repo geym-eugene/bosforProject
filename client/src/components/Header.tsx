@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Menu, Search, User } from "lucide-react";
 import { Link, useNavigate } from "react-router";
-import { HashLink } from "react-router-hash-link";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { store } from "@/app/store/store";
+import { logout } from "@/entities/user/model/userThunks";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -71,11 +71,18 @@ const Header = () => {
             <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Search className="h-5 w-5" />
             </button>
+            Привет {user?.username || "Гость"} 
             <button
               onClick={() => navigate("/user")}
               className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
-             Привет {user?.username || "Гость"} <User className="h-5 w-5" />
+             <User className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => dispatch(logout())}
+              className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            >
+          выйти
             </button>
             <button className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Menu className="h-5 w-5" />

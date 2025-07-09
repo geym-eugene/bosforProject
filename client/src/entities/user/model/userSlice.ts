@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { UserStatType } from "./userType";
-import { getCurrentUser, logout, refresh, signin, signup } from "./userThunks";
+import { getAllUsersThunk, getCurrentUser, logout, refresh, signin, signup } from "./userThunks";
 
 // начальное состояние юзера
 const initialState: UserStatType = {
+  users: [],
   user: null,
   loading: true,
   error: null,
-  //   isModalOpen: false,
 };
 
 export const userSlice = createSlice({
@@ -97,6 +97,10 @@ export const userSlice = createSlice({
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
       state.user = action.payload;
     });
+
+    builder.addCase(getAllUsersThunk.fulfilled, (state, action) => {
+      state.users = action.payload
+    })
   },
 });
 
