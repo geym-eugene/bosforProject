@@ -29,3 +29,13 @@ export const getCurrentUser = createAsyncThunk("user/decode", async () =>
 export const getAllUsersThunk = createAsyncThunk("users/get", async () =>
   userService.getAllUsersService()
 );
+
+export const giveAdminRoleThunk = createAsyncThunk("user/admin", async (id: number) => {
+  userService.giveAdminRole(id)
+  return id
+})
+
+// export const getThatUserSunk = createAsyncThunk("user/getOne", async (id: number) => {
+//   await userService.getThatUserService
+//   return id
+// })

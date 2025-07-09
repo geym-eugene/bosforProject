@@ -40,8 +40,16 @@ class UserService {
   }
 
   async getAllUsersService(): Promise<UsersT> {
-    return await this.client.get('/users')
+    return (await this.client.get("/users")).data;
   }
+
+  async giveAdminRole(id: number): Promise<void> {
+    await this.client.patch("/users/:${id}/role");
+  }
+
+  // async getThatUserService(id: number): Promise<UserType> {
+  //   return (await this.client.get(`/user/:${id.toString()}`)).data;
+  // }
 }
 
 export default new UserService(axiosInstance);

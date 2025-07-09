@@ -78,12 +78,12 @@ const Header = () => {
             >
              <User className="h-5 w-5" />
             </button>
-            <button
+           {user && <button
               onClick={() => dispatch(logout())}
               className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
           выйти
-            </button>
+            </button>}
             <button className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Menu className="h-5 w-5" />
             </button>
