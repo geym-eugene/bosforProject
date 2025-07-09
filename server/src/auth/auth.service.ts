@@ -66,6 +66,7 @@ export class AuthService {
   async refreshTokens(refreshToken: string): Promise<{
     accessToken: string;
     refreshToken: string;
+    user: User;
   }> {
     try {
       // Проверяем, не в чёрном списке ли токен
@@ -85,7 +86,13 @@ export class AuthService {
         throw new UnauthorizedException('User not found');
       }
 
-      return await this.generateTokens(user);
+      const tokens = await this.generateTokens(user);
+
+      return {
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        user,
+      };
     } catch (error) {
       console.log(error);
       throw new UnauthorizedException('Invalid refresh token');
