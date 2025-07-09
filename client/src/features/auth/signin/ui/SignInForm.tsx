@@ -2,6 +2,7 @@ import { signinSchema } from "@/entities/user/model/userSchems";
 import { signin } from "@/entities/user/model/userThunks";
 import { useAppDispatch } from "@/shared/library/hooks";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 function SignInForm({
   logReg,
@@ -13,6 +14,7 @@ function SignInForm({
   const dispatch = useAppDispatch();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -22,12 +24,9 @@ function SignInForm({
 
     try {
       const validated = signinSchema.parse(data);
-      dispatch(signin(validated))
+      void dispatch(signin(validated))
         .unwrap()
-        .catch(() => {
-          setError("Ошибка входа");
-          setLoading(false);
-        });
+        .then(() => navigate('/')).catch(() => setLoading(false));
     } catch {
       setError("Неверные данные");
       setLoading(false);
@@ -58,9 +57,7 @@ function SignInForm({
         required
       />
 
-      {error && (
-        <div className="text-sm text-red-600 text-center">{error}</div>
-      )}
+      {error && <div className="text-sm text-red-600 text-center">{error}</div>}
 
       <button
         className={`w-full bg-blue-600 text-white py-2 rounded font-semibold transition duration-200 ${

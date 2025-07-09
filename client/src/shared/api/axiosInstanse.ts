@@ -16,9 +16,9 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError & { config: { sent: boolean } }) => {
     const prev = err.config;
-    if (err.status === 403 && !prev.sent) {
+    if (err.status === 401 && !prev.sent) {
       prev.sent = true;
-      const response = await axios.get<{ accessToken: string }>(
+      const response = await axios.post<{ accessToken: string }>(
         "/api/auth/refresh"
       );
       accessToken = response.data.accessToken;

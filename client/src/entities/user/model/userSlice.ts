@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { UserStatType } from "./userType";
-import { getAllUsersThunk, getCurrentUser, logout, refresh, signin, signup } from "./userThunks";
+import {
+  getAllUsersThunk,
+  getCurrentUser,
+  giveAdminRoleThunk,
+  logout,
+  refresh,
+  signin,
+  signup,
+} from "./userThunks";
 
 // начальное состояние юзера
 const initialState: UserStatType = {
@@ -99,8 +107,19 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(getAllUsersThunk.fulfilled, (state, action) => {
-      state.users = action.payload
-    })
+      state.users = action.payload;
+    });
+
+    builder.addCase(giveAdminRoleThunk.fulfilled, (state, action) => {
+      const index = state.users.findIndex((user) => user.id === action.payload);
+
+      if (index !== -1 && state.users[index].role === 'user') {
+        state.users[index] = {...state.users[index], role: 'admin'}
+      }
+       if (index !== -1 && state.users[index].role === 'admin') {
+        state.users[index] = {...state.users[index], role: 'user'}
+      }
+    });
   },
 });
 
