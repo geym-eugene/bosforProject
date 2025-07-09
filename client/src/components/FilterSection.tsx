@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ChevronDown, Filter, Grid3x3, Home, Square } from "lucide-react";
 import ModalAdding from "@/entities/projects/ui/ModalAdding";
 import {
@@ -15,6 +15,7 @@ import {
   setRangeFilter,
 } from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
+// import { naprimerHook } from "@/shared/custom/hooks/naprimer";
 
 interface FilterI {
   id: string;
@@ -27,6 +28,7 @@ const FilterSection = () => {
   const [activeFilter, setActiveFilter] = useState<FilterI | null>(null);
   const dispatch = useAppDispatch();
   const rangeFilterValue = useAppSelector((state) => state.project.rangeFilter);
+  // naprimerHook();
 
   const onRangeInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setRangeFilter(Number(e.target.value)));
