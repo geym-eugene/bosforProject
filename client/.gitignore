@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+public/models/
+
+package-lock.json
+
 .env
 # Editor directories and files
 .vscode/*
