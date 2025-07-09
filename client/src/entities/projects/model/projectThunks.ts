@@ -26,3 +26,5 @@ export const patchProjectThunk = createAsyncThunk(
   async ({ id, data }: { id: number; data: NewProjectT }) =>
     await projectService.patchProjectService(id, data)
 );
+
+

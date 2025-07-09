@@ -5,10 +5,13 @@ export interface ProjectT {
   area_m2: number;
   floors: number;
   material: string;
+  roof: string | null;
+  style: string | null;
   price: number;
   image_preview: string;
   model_3d_url: string;
   plan_pdf_url: string;
+  userId: number | null;
 }
 
 export type ProjectsT = ProjectT[];
@@ -25,6 +28,11 @@ export type NewProjectT = {
   plan_pdf_url: string;
 };
 
+export type objectFav = {
+  id: number;
+  project: ProjectT;
+};
+
 export type InitialStateT = {
   projects: ProjectsT;
   projectsFiltered: ProjectsT;
@@ -34,5 +42,5 @@ export type InitialStateT = {
   isSecondModalOpen: boolean;
   selectedProjectId: number | null;
   showProjectState: boolean;
-  rangeFilter: number
+  rangeFilter: number;
 };

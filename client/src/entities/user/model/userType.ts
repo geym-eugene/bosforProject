@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { signinSchema, signupSchema, userSchema } from "./userSchems";
+import { ProjectT } from "@/entities/projects/model/projectType";
 
 // cxeма для возвращения юзера
 export type UserType = z.infer<typeof userSchema>;
@@ -16,4 +17,11 @@ export type UserStatType = {
   //   isModalOpen: boolean;
 };
 
-export type UsersT = UserType[]
+export type UsersT = UserType[];
+
+export type FavoriteT = {
+  id: 1;
+  project: ProjectT
+};
+
+export type FavoritestT = FavoriteT[];

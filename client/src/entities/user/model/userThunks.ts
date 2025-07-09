@@ -30,10 +30,20 @@ export const getAllUsersThunk = createAsyncThunk("users/get", async () =>
   userService.getAllUsersService()
 );
 
-export const giveAdminRoleThunk = createAsyncThunk("user/toAdmin", async ({id, role} : {id: number, role: objectRoleT}) => {
-  userService.giveAdminRole(id, role)
-  return ({id, role})
-})
+export const giveAdminRoleThunk = createAsyncThunk(
+  "user/toAdmin",
+  async ({ id, role }: { id: number; role: objectRoleT }) => {
+    userService.giveAdminRole(id, role);
+    return { id, role };
+  }
+);
+
+export const addToFavoriteThunk = createAsyncThunk(
+  "favorite/add",
+  async ({ projectId, userId }: { projectId: number; userId: number }) => {
+    userService.addToFavorite(projectId, userId);
+  }
+);
 
 // export const getThatUserSunk = createAsyncThunk("user/getOne", async (id: number) => {
 //   await userService.getThatUserService
