@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { OrbitControls, useGLTF, Environment, Edges } from "@react-three/drei";
 import { Center } from "@react-three/drei";
 import { Mesh, MeshStandardMaterial } from "three";
+import React from "react";
 
 function HouseModel() {
   const { scene } = useGLTF("/models/jeka.glb");
@@ -14,11 +15,11 @@ function HouseModel() {
       child.receiveShadow = true;
 
       child.material = new MeshStandardMaterial({
-        color: "blue",
+        color: "green",
         metalness: 0.1,
         visible: true,
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.8,
         // wireframe: true,
       });
     }
@@ -42,33 +43,32 @@ function HouseModel() {
   );
 }
 
-export function HouseScene() {
+const HouseSceneComponent: React.FC = () => {
   return (
     <Canvas
-      style={{ height: "100vh", width: "100vw" }}
+      style={{ width: "100%", height: "100%", background: "transparent" }}
+      className=""
       shadows
       camera={{ position: [0, 2, 5], fov: 75 }}
     >
-      <Environment preset="dawn" background />
-
+      {/* <Environment preset='warehouse' background /> */}
+      <Environment files="/models/lala.jpg" background />
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 10, 5]} intensity={7} castShadow />
-
       {/* задержка зашрузки */}
       <Suspense fallback={null}>
         <HouseModel />
         <OrbitControls />
       </Suspense>
-      {/* <EffectComposer multisampling={8}>
-        <Outline
-          blendFunction={BlendFunction.SCREEN}
-          edgeStrength={5.0}
-          pulseSpeed={0}
-          visibleEdgeColor={0x000000}
-          hiddenEdgeColor={0x666666}
-          width={1000}
-        />
-      </EffectComposer> */}
     </Canvas>
   );
-}
+};
+
+export const HouseScene = React.lazy(
+  () =>
+    new Promise<{ default: React.FC }>((resolve) => {
+      setTimeout(() => {
+        resolve({ default: HouseSceneComponent });
+      }, 1000);
+    })
+);

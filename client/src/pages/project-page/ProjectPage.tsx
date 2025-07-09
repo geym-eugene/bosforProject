@@ -3,6 +3,8 @@ import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { Download, Eye, Home, Square } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
+import { Modal3D } from "@/pages/trying3D/Modal3DPage";
+import { useState } from "react";
 
 const ProjectDetailPage: React.FC = () => {
   //Доделать страничку надо
@@ -17,6 +19,8 @@ const ProjectDetailPage: React.FC = () => {
     store.project.projects.find((project) => project.id === projectId)
   );
   console.log(projects);
+
+    const [modalOpen, setModalOpen] = useState(false);
 
   if (!project) return null;
   return (
@@ -75,16 +79,16 @@ const ProjectDetailPage: React.FC = () => {
           </a>
         )}
         {project.model_3d_url && (
-          <a
-            href={project.model_3d_url}
-            target="_blank"
+          <button
+            type="button"
             className="inline-flex items-center px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 transition"
-            rel="noopener noreferrer"
+            onClick={() => setModalOpen(true)}
           >
             <Eye className="h-4 w-4 mr-2" />
             Открыть 3D Модель
-          </a>
+          </button>
         )}
+        <Modal3D open={modalOpen} onOpenChange={setModalOpen} />
       </div>
 
       {/* Кнопка редактирования

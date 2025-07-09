@@ -11,7 +11,7 @@ import ProjectDetailPage from "@/pages/project-page/ProjectPage";
 import Layout from "./Layout";
 import UserPage from "@/pages/user-page/UserPage";
 import { useAppSelector } from "@/shared/library/hooks";
-import { HouseScene } from "@/pages/trying3D/HouseScene";
+
 
 function AppRoutes() {
   const user = useAppSelector((store) => store.user.user);
@@ -26,7 +26,7 @@ function AppRoutes() {
           <Route path="/project/:id" element={<ProjectDetailPage />} />
           <Route path="/user" element={<UserPage />} />
         </Route>
-        <Route path="/threeD" element={<HouseScene />} />
+
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
