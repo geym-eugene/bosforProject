@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { deleteProjectThunk } from "../model/projectThunks";
 import { openSecondModal } from "../model/projectSlice";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { Modal3D } from "@/pages/trying3D/Modal3DPage";
 
 interface ProjectCardProps {
   project: ProjectT;
@@ -23,11 +25,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     dispatch(deleteProjectThunk(id));
   };
 
-  const showProjectState = useAppSelector((store) => store.project.showProjectState);
+  const showProjectState = useAppSelector(
+    (store) => store.project.showProjectState
+  );
 
   const navigate = useNavigate();
 
   if (showProjectState && projectIndex > 1) return null;
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div
@@ -60,15 +66,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {/* 3D View Button */}
         <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="px-4 py-2 bg-white text-gray-900 rounded-full font-semibold text-sm hover:bg-gray-100 transition-colors flex items-center gap-2">
+          <button
+            className="px-4 py-2 bg-white text-gray-900 rounded-full font-semibold text-sm hover:bg-gray-100 transition-colors flex items-center gap-2"
+            onClick={() => setModalOpen(true)}
+          >
             <Eye className="h-4 w-4" />
             3D View
           </button>
+          <Modal3D open={modalOpen} onOpenChange={setModalOpen} />
         </div>
 
         {/* Featured Badge */}
         {project.plan_pdf_url && (
-          <div className="absolute top-4 left-4">
+          <div className="absolute top-4 left-4 cursor-pointer">
             <span className="px-3 py-1 bg-yellow-400 text-gray-900 text-xs font-semibold rounded-full">
               3dModel
             </span>
