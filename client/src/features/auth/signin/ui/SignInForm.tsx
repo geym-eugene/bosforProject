@@ -14,7 +14,7 @@ function SignInForm({
   const dispatch = useAppDispatch();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -26,7 +26,8 @@ function SignInForm({
       const validated = signinSchema.parse(data);
       void dispatch(signin(validated))
         .unwrap()
-        .then(() => navigate('/')).catch(() => setLoading(false));
+        .then(() => navigate("/"))
+        .catch(() => setLoading(false));
     } catch {
       setError("Неверные данные");
       setLoading(false);

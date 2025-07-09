@@ -5,8 +5,7 @@ export const userSchema = z.object({
   id: z.number(),
   username: z.string(),
   email: z.string(),
-  role: z.string(),
-  avatar: z.string(),
+  role: z.string().optional(),
 });
 
 // схема для регистрации

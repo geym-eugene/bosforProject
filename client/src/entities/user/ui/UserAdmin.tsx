@@ -11,20 +11,21 @@ export default function UserAdmin() {
   const users = useAppSelector(store => store.user.users)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    // Обычно здесь будет axios.get(...) к API
-   void dispatch(getAllUsersThunk())
-  }, []);
-
   const filteredUsers = users.filter(
     (user) =>
       user.username.toLowerCase().includes(search.toLowerCase()) ||
       user.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const giveAdmin = (userId) => {
-    void dispatch(giveAdminRoleThunk(userId))
+  const giveAdmin = (obj) => {
+    void dispatch(giveAdminRoleThunk(obj))
   };
+
+  useEffect(() => {
+    // Обычно здесь будет axios.get(...) к API
+   void dispatch(getAllUsersThunk())
+  }, [dispatch]);
+
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
@@ -51,7 +52,10 @@ export default function UserAdmin() {
               <p className="text-sm text-gray-500">{user.role}</p>
             </div>
             <button
-              onClick={() => giveAdmin(user.id)}
+              onClick={() => {
+                if (user.role === 'user') return giveAdmin({id: user.id, role: 'moder'})
+                giveAdmin({id: user.id, role: 'user'})
+              }}
               className="text-blue-600 hover:text-blue-800 font-medium transition"
             >
               ✏️ Дать/забрать модерку 

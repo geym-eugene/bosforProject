@@ -111,12 +111,12 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(giveAdminRoleThunk.fulfilled, (state, action) => {
-      const index = state.users.findIndex((user) => user.id === action.payload);
+      const index = state.users.findIndex((user) => user.id === action.payload.id);
 
       if (index !== -1 && state.users[index].role === 'user') {
-        state.users[index] = {...state.users[index], role: 'admin'}
+        state.users[index] = {...state.users[index], role: 'moder'}
       }
-       if (index !== -1 && state.users[index].role === 'admin') {
+       else if (index !== -1 && state.users[index].role === 'moder') {
         state.users[index] = {...state.users[index], role: 'user'}
       }
     });

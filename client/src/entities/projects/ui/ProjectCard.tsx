@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Eye, Heart, Download, Square, Home } from "lucide-react";
 import type { ProjectT } from "@/entities/projects/model/projectType";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
@@ -24,6 +24,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   const showProjectState = useAppSelector((store) => store.project.showProjectState);
+
+const role = useAppSelector(store => store.user.user?.role)
 
   const navigate = useNavigate();
 
@@ -108,18 +110,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <button className="w-full py-3 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
           Generate AI Interior
         </button>
-        <button
+       {role === 'admin' && <button
           onClick={() => handleDelete(project.id)}
           className="w-full py-3 border border-red-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
         >
-          Тут надо привязать к ADMIN - УДАЛИЦ
-        </button>
-        <button
+          Удалить
+        </button>}
+       {role === 'admin' && <button
           onClick={() => dispatch(openSecondModal(project.id))}
           className="w-full py-3 border border-red-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
         >
           Редактировать
-        </button>
+        </button>}
       </div>
     </div>
   );
