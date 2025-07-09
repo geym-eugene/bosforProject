@@ -3,6 +3,7 @@ import { authApiResponseSchema } from "../model/userSchems";
 import type {
   SigninFormType,
   SignupFormType,
+  UsersT,
   UserType,
 } from "../model/userType";
 import axiosInstance from "@/shared/api/axiosInstanse";
@@ -36,6 +37,10 @@ class UserService {
   async logout(): Promise<null> {
     await this.client.post("/auth/logout");
     return null;
+  }
+
+  async getAllUsersService(): Promise<UsersT> {
+    return await this.client.get('/users')
   }
 }
 

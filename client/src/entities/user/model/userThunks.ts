@@ -25,3 +25,7 @@ export const logout = createAsyncThunk("user/logout", async () =>
 export const getCurrentUser = createAsyncThunk("user/decode", async () =>
   userService.getCurrentUser()
 );
+
+export const getAllUsersThunk = createAsyncThunk("users/get", async () =>
+  userService.getAllUsersService()
+);
