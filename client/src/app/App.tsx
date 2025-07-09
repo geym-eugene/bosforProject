@@ -4,9 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import AppRoutes from "./routes/AppRoutes";
-import { useAppDispatch } from "@/shared/library/hooks";
+import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
 import { getCurrentUser, refresh } from "@/entities/user/model/userThunks";
 import { useEffect } from "react";
+import { store } from "./store/store";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ const App = () => {
 
   useEffect(() => {
     // get current user on app init
+    // dispatch(refresh())
     dispatch(getCurrentUser());
   }, []);
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router';
+import React from "react";
+import { Navigate, Outlet } from "react-router";
 
 type Props = {
   isAllowed: boolean;
@@ -9,7 +9,7 @@ type Props = {
 
 export default function ProtectedRoute({
   isAllowed,
-  redirectTo = '/',
+  redirectTo,
   children,
 }: Props): React.JSX.Element {
   if (!isAllowed) return <Navigate to={redirectTo} />;
