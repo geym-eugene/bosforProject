@@ -9,7 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Favorite } from 'src/favorite/entity';
+import { Favorite } from '../favorite/entity';
 
 export enum UserRole {
   USER = 'user',

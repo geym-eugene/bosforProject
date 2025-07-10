@@ -1,6 +1,9 @@
 import { DataSource } from 'typeorm';
 import { User, UserRole } from '../user/entity';
 import 'dotenv/config';
+import { Favorite } from '../favorite/entity';
+import { Project } from '../project/entity';
+import { ProjectImage } from '../project-images/entity';
 
 // Создаём DataSource вручную для seed-скрипта
 const AppDataSource = new DataSource({
@@ -10,7 +13,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  entities: [User],
+  entities: [User, Favorite, Project, ProjectImage],
   synchronize: true, // чтобы не дропнуть таблицы случайно
 });
 

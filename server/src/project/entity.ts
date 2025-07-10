@@ -1,3 +1,4 @@
+import { ProjectImage } from '../project-images/entity';
 import {
   Entity,
   Column,
@@ -55,9 +56,6 @@ export class Project {
   price: number;
 
   @Column({ type: 'varchar', nullable: true, default: null })
-  image_preview: string;
-
-  @Column({ type: 'varchar', nullable: true, default: null })
   model_3d_url: string;
 
   @Column({ type: 'varchar', nullable: true, default: null })
@@ -74,4 +72,7 @@ export class Project {
 
   @OneToMany(() => Project, (project) => project.userId)
   projects: Project[];
+
+  @OneToMany(() => ProjectImage, (image) => image.project, { cascade: true })
+  images: ProjectImage[];
 }
