@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import { MaterialType, Project, RoofType, StyleType } from '../project/entity';
 import 'dotenv/config';
+import { ProjectImage } from '../project-images/entity';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -9,7 +10,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  entities: [Project],
+  entities: [Project, ProjectImage],
   synchronize: true, // можно оставить включённым только для сидов
 });
 

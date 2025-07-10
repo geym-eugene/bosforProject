@@ -22,10 +22,10 @@ function AppRoutes() {
             <Route element={<Layout/>}>
                 <Route path="/" element={<MainPage/>}/>
                 <Route path="/reg" element={<SignPage/>}/>
+                <Route path="/project/:id" element={<ProjectDetailPage/>}/>
                 <Route
                     element={<ProtectedRoute isAllowed={!!user} redirectTo="/reg"/>}
                 >
-                    <Route path="/project/:id" element={<ProjectDetailPage/>}/>
                     <Route path="/user" element={<UserPage/>}/>
                 </Route>
 
