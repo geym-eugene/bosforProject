@@ -51,19 +51,19 @@ const FilterSection = () => {
   const filters: FilterI[] = [
     {
       id: "all",
-      label: "All Projects/все проекты",
-      count: 124,
+      label: "Все проекты",
+      count: 0,
       doing: () => dispatch(noFilter()),
     },
     {
       id: "modern",
-      label: "Modern /минимум 100м2",
+      label: "Площадью до 100м2",
       count: 48,
       doing: () => dispatch(minHundred()),
     },
-    { id: "scandinavian", label: "Scandinavian", count: 32 },
-    { id: "min 100m2", label: "Minimalist", count: 28 },
-    { id: "luxury", label: "Luxury", count: 16 },
+    { id: "scandinavian", label: "Минимализм", count: 32 },
+    { id: "min 100m2", label: "Сканди", count: 28 },
+    { id: "luxury", label: "Хай-Тек", count: 16 },
   ];
 
   const doingHandler = (chosenFilter) => {
@@ -77,10 +77,10 @@ const FilterSection = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-light text-gray-900 mb-4">
-            Explore Our <span className="font-bold">Collection</span>
+            Ознакомьтесь с <span className="font-bold">Нашей Подборкой</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Browse through our curated selection of architectural masterpieces
+            Архитектура, достойная восхищения
           </p>
         </div>
 
@@ -106,11 +106,10 @@ const FilterSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
           <div className="relative">
             <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-              <option>Material</option>
-              <option>Wood & Glass</option>
-              <option>Concrete</option>
-              <option>Steel & Glass</option>
-              <option>Brick</option>
+              <option>Материал</option>
+              <option>Сип-Панель</option>
+              <option>Дерево</option>
+              <option>Кирпич</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
           </div>
@@ -126,48 +125,49 @@ const FilterSection = () => {
               type="range"
               value={rangeFilterValue}
               onChange={onRangeInputChange}
-              min="1"
-              max="100000000"
+              min="10000"
+              max="1000000"
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
             <span className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">
-              Min (1 ₽)
+              Min (10000 ₽)
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">
-              Max (100000000 ₽)
+              Max (1000000 ₽)
             </span>
           </div>
           <div className="relative">
             <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-              <option>Area (sq ft)</option>
-              <option>Under 1,500</option>
-              <option>1,500 - 2,500</option>
-              <option>2,500 - 4,000</option>
-              <option>Over 4,000</option>
+              <option>Площадь (м2)</option>
+              <option>до 1000</option>
+              <option>50 - 300</option>
+              <option>300 - 550</option>
+              <option>более 550</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
           </div>
 
           <div className="relative">
             <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-              <option>Floors</option>
-              <option>Single Story</option>
-              <option>Two Story</option>
-              <option>Three Story</option>
-              <option>Multi-level</option>
+              <option>Этажность</option>
+              <option>одинокая история</option>
+              <option>две истории</option>
+              <option>три истории</option>
+              <option>мульти макси левел</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
           </div>
 
           <button className="px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
             <Filter className="h-5 w-5" />
-            Apply Filters ПРОВЕРКА
+            Применить
           </button>
+          {/* ТУТ НАДО ДЛЯ АДМИНА ДОБАВЛЕНИЕ СДЕЛАТЬ, НАХУЙ ОНА ДЛЯ ВСЕХ ВИСИТ */}
           <button
             onClick={() => dispatch(openAddModal())}
             className="px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
           >
-            Add Project
+            Добавить проект
           </button>
         </div>
       </div>

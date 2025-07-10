@@ -6,26 +6,26 @@ const FeatureSection = () => {
   const features = [
     {
       icon: Eye,
-      title: '3D Visualization',
-      description: 'Experience your future home with stunning 3D renderings and virtual walkthroughs',
+      title: '3D Визаулизация',
+      description: 'Погрузитесь в атмосферу своего будущего дома через реалистичную 3D-визуализацию',
       color: 'text-blue-600'
     },
     {
       icon: Cpu,
-      title: 'AI-Powered Design',
-      description: 'Generate personalized interior designs using cutting-edge artificial intelligence',
+      title: 'Функциональные планировки',
+      description: 'Рациональная организация пространства обеспечивает комфорт, эргономику и гибкость под любые потребности',
       color: 'text-purple-600'
     },
     {
       icon: Palette,
-      title: 'Custom Plans',
-      description: 'Tailor every detail to your vision with our comprehensive customization tools',
+      title: 'Современный взгляд',
+      description: 'Дизайны соответствуют последним архитектурным трендам и подчёркивают индивидуальность вашего дома',
       color: 'text-green-600'
     },
     {
       icon: Shield,
-      title: 'Quality Assured',
-      description: 'All plans are professionally designed and meet the highest construction standards',
+      title: 'Гарантия качества',
+      description: 'Гарантированное качество: все планы соответствуют профессиональным стандартам и строительным требованиям',
       color: 'text-red-600'
     }
   ];
@@ -35,10 +35,10 @@ const FeatureSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-light text-gray-900 mb-4">
-            Why Choose <span className="font-bold">Bosfor</span>
+            Почему <span className="font-bold">BOSFOR</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            We combine traditional architectural excellence with modern technology
+            Мы объединяем классическую архитектуру с современными технологиями
           </p>
         </div>
 
@@ -58,18 +58,18 @@ const FeatureSection = () => {
         <div className="text-center mt-16">
           <div className="bg-white rounded-3xl p-12 shadow-sm">
             <h3 className="text-3xl font-light text-gray-900 mb-4">
-              Ready to Build Your <span className="font-bold">Dream Home?</span>
+              Готовы Построить <span className="font-bold">Свою Мечту?</span>
             </h3>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Join thousands of satisfied customers who have brought their visions to life with Bosfor
+              Присоединяйтесь к тысячам довольных клиентов, воплотивших свои идеи в жизнь вместе с BOSFOR
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-gray-900 text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition-colors">
-                Start Your Project
+                Получить консультацию
               </button>
-              <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition-colors">
-                Schedule Consultation
-              </button>
+              {/* <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition-colors">
+                Получить Консультацию
+              </button> */}
             </div>
           </div>
         </div>
