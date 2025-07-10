@@ -12,7 +12,43 @@ const initialState: InitialStateT = {
     selectedProjectId: null,
     showProjectState: true,
     rangeFilter: 0,
+    filters: {
+        area_m2: {min: null, max: null},
+        price: null,
+        material: null,
+        style: null,
+        floors: null,
+    }
 };
+
+function applyFilters(state: InitialStateT) {
+    const {area_m2, price, material, style, floors} = state.filters;
+
+    state.projectsFiltered = state.projects.filter(project => {
+        const matchArea = area_m2.min !== null && area_m2.max !== null
+            ? project.area_m2 >= area_m2.min && project.area_m2 <= area_m2.max
+            : true;
+
+        const matchPrice = price !== null
+            ? project.price <= price
+            : true;
+
+        const matchMaterial = material
+            ? project.material.toLowerCase() === material.toLowerCase()
+            : true;
+
+        const matchStyle = style
+            ? project.style.toLowerCase() === style.toLowerCase()
+            : true;
+
+        const matchFloors = floors !== null
+            ? project.floors === floors
+            : true;
+
+        return matchArea && matchPrice && matchMaterial && matchStyle && matchFloors;
+    });
+}
+
 
 export const projectsSlice = createSlice({
     name: "project",
@@ -43,47 +79,52 @@ export const projectsSlice = createSlice({
                 (project) => project.area_m2 > 100
             );
         },
-        scandi(state) {
-            state.projectsFiltered = state.projectsFiltered.filter(
-                (project) => project.style === 'сканди'
-            );
+
+        setStyleFilter(state, action: PayloadAction<string | null>) {
+            state.filters.style = action.payload;
+            applyFilters(state);
         },
-        minimalism(state) {
-            state.projectsFiltered = state.projectsFiltered.filter(
-                (project) => project.style === 'минимализм'
-            );
-        },
-        hiTech(state) {
-            state.projectsFiltered = state.projectsFiltered.filter(
-                (project) => project.style === 'хай-тек'
-            );
-        },
+
         noFilter(state) {
+            state.filters = {
+                area_m2: {min: null, max: null},
+                price: null,
+                material: null,
+                style: null,
+                floors: null,
+            };
             state.projectsFiltered = [...state.projects];
         },
         setRangeFilter(state, action: PayloadAction<number>) {
             state.rangeFilter = action.payload;
 
-            state.projectsFiltered = state.projectsFiltered.filter(
+            state.projectsFiltered = state.projects.filter(
                 (el) => el.price <= state.rangeFilter
             );
         },
         setMaterialFilter(state, action: PayloadAction<string>) {
-            if (action.payload.length !== 0) {
-                state.projectsFiltered = state.projectsFiltered.filter(project => project.material.toLowerCase() === action.payload.toLowerCase())
+            state.filters.material = action.payload || null;
+            applyFilters(state);
+        },
+
+        setAreaFilter(state, action: PayloadAction<{ min: number, max: number } | null>) {
+            if (action.payload) {
+                state.filters.area_m2 = {
+                    min: action.payload.min,
+                    max: action.payload.max,
+                };
             } else {
-                state.projectsFiltered = state.projects
+                state.filters.area_m2 = {min: null, max: null};
             }
+            applyFilters(state);
         },
 
-        setAreaFilter(state, action: PayloadAction<{ min: string, max: string }>) {
-            state.projectsFiltered = state.projectsFiltered.filter(project => project.area_m2 > Number(action.payload.min) && project.area_m2 < Number(action.payload.max));
+        setFloorFilter(state, action: PayloadAction<number | null>) {
+            state.filters.floors = action.payload;
+            applyFilters(state);
         },
-
-        setFloorFilter(state, action: PayloadAction<number>) {
-            state.projectsFiltered = state.projectsFiltered.filter(project => project.floors === action.payload)
-        }
     },
+
     extraReducers(builder) {
         //get
         builder.addCase(getAllProjectsThunk.pending, (state) => {
@@ -166,7 +207,7 @@ export const projectsSlice = createSlice({
             state.loading = false;
             state.error = null;
         });
-    },
+    }
 });
 
 export default projectsSlice.reducer;
@@ -184,7 +225,6 @@ export const {
     setMaterialFilter,
     setAreaFilter,
     setFloorFilter,
-    scandi,
-    minimalism,
-    hiTech,
+    setStyleFilter,
 } = projectsSlice.actions;
+

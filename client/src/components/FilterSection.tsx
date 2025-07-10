@@ -3,16 +3,14 @@ import {ChevronDown, Filter} from "lucide-react";
 import ModalAdding from "@/entities/projects/ui/ModalAdding";
 import {useAppDispatch, useAppSelector} from "@/shared/library/hooks";
 import {
-    hiTech,
     minHundred,
-    minimalism,
     noFilter,
     openAddModal,
-    scandi,
     setAreaFilter,
     setFloorFilter,
     setMaterialFilter,
     setRangeFilter,
+    setStyleFilter,
 } from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
 
@@ -64,9 +62,9 @@ const FilterSection = () => {
             count: 48,
             doing: () => dispatch(minHundred()),
         },
-        {id: "scandinavian", label: "Минимализм", count: 32, doing: () => dispatch(minimalism())},
-        {id: "min 100m2", label: "Сканди", count: 28, doing: () => dispatch(scandi())},
-        {id: "luxury", label: "Хай-Тек", count: 16, doing: () => dispatch(hiTech())},
+        {id: "scandinavian", label: "Минимализм", count: 32, doing: () => dispatch(setStyleFilter("минимализм"))},
+        {id: "min 100m2", label: "Сканди", count: 28, doing: () => dispatch(setStyleFilter("сканди"))},
+        {id: "luxury", label: "Хай-Тек", count: 16, doing: () => dispatch(setStyleFilter("хай-тек"))},
     ];
 
     const doingHandler = (chosenFilter) => {
@@ -85,6 +83,7 @@ const FilterSection = () => {
     const doingHandlerSelectFloor = (chosenFilter) => {
         dispatch(setFloorFilter(Number(chosenFilter)));
     }
+
 
     return (
         <section className="bg-gray-50 py-16">
