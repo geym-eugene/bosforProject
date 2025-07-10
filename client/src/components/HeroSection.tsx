@@ -1,11 +1,24 @@
 import React from "react";
 import { ArrowRight, Play } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleScroll = (page: string, path: string | null) => {
+    navigate(`${page}`);
+    if (path) {
+      setTimeout(() => {
+        const projects = document.getElementById(`${path}`);
+        projects.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+    }
+  };
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div
+      <div id="main" 
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
@@ -21,19 +34,23 @@ const HeroSection = () => {
 
         <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto leading-relaxed">
           Современные архитектурные проекты
-          <br />премиум-класса с 3D-визуализацией
+          <br />
+          премиум-класса с 3D-визуализацией
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button className="bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center gap-2 group">
+          <button
+            onClick={() => handleScroll("/", "projects")}
+            className="bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center gap-2 group"
+          >
             Каталог
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </button>
 
-          <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center gap-2">
+          {/* <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center gap-2">
             <Play className="h-5 w-5" />
             Watch Demo
-          </button>
+          </button> */}
         </div>
       </div>
 

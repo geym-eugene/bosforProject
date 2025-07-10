@@ -31,7 +31,7 @@ const FeatureSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="about" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-light text-gray-900 mb-4">
@@ -55,7 +55,7 @@ const FeatureSection = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-16">
+        <div id="contacts" className="text-center mt-16">
           <div className="bg-white rounded-3xl p-12 shadow-sm">
             <h3 className="text-3xl font-light text-gray-900 mb-4">
               Готовы Построить <span className="font-bold">Свою Мечту?</span>

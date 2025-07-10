@@ -8,8 +8,8 @@ import { logout } from "@/entities/user/model/userThunks";
 const Header = () => {
   const navigate = useNavigate();
 
-  const user = useAppSelector(store => store.user.user )
-  const dispatch = useAppDispatch()
+  const user = useAppSelector((store) => store.user.user);
+  const dispatch = useAppDispatch();
 
   const handleScroll = (page: string, path: string | null) => {
     navigate(`${page}`);
@@ -27,20 +27,21 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+            {/* <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
               BOSFOR
-            </h1>
+            </h1> */}
+            <button className="text-2xl font-bold text-gray-900 tracking-tight"
+              onClick={() => handleScroll("/", "main")}
+            >
+              BOSFOR
+            </button>
           </div>
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a
-              href="#"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-            </a>
+            <button className="text-gray-600 hover:text-gray-900 transition-colors"></button>
             <button
-              onClick={() => handleScroll("/", null)}
+              onClick={() => handleScroll("/", "main")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               Главная
@@ -52,37 +53,38 @@ const Header = () => {
               Каталог
             </button>
             <button
-              onClick={() => handleScroll("/", "projects")}
+              onClick={() => handleScroll("/", "contacts")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               Контакты
             </button>
-            <a
-              href="#"
+            <button
+              onClick={() => handleScroll("/", "about")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               О нас
-            </a>
+            </button>
           </nav>
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
             <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
-              <Search className="h-5 w-5" />
             </button>
             Привет, {user?.username || "Гость"}!
             <button
               onClick={() => navigate("/user")}
               className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
-             <User className="h-5 w-5" />
+              <User className="h-5 w-5" />
             </button>
-           {user && <button
-              onClick={() => dispatch(logout())}
-              className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-          Выйти
-            </button>}
+            {user && (
+              <button
+                onClick={() => dispatch(logout())}
+                className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Выйти
+              </button>
+            )}
             <button className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Menu className="h-5 w-5" />
             </button>

@@ -5,20 +5,32 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import AppRoutes from "./routes/AppRoutes";
 import { useAppDispatch, useAppSelector } from "@/shared/library/hooks";
-import { getCurrentUser, refresh } from "@/entities/user/model/userThunks";
+// import { getCurrentUser, refresh } from "@/entities/user/model/userThunks";
 import { useEffect } from "react";
 import { store } from "./store/store";
+import {
+  getCurrentUser,
+  refresh,
+  getFavoritesThunk,
+} from "@/entities/user/model/userThunks";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((store) => store.user.user);
 
   useEffect(() => {
     // get current user on app init
     // dispatch(refresh())
     dispatch(getCurrentUser());
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getFavoritesThunk());
+    }
+  }, [dispatch, user]);
 
   return (
     <QueryClientProvider client={queryClient}>
