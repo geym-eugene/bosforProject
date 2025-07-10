@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Favorite } from '../favorite/entity';
+import { Project } from 'src/project/entity';
 
 export enum UserRole {
   USER = 'user',
@@ -40,6 +41,9 @@ export class User {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @OneToMany(() => Project, (project) => project.userId)
+  projects: Project[];
 
   @OneToMany(() => Favorite, (favorite) => favorite.user)
   favorites: Favorite[];

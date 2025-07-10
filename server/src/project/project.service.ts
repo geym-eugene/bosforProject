@@ -16,8 +16,8 @@ export class ProjectService {
     return this.projectRepo.find();
   }
 
-  create(dto: CreateProjectDto): Promise<Project> {
-    const project = this.projectRepo.create(dto);
+  async create(dto: CreateProjectDto, userId: number): Promise<Project> {
+    const project = this.projectRepo.create({ ...dto, userId });
     return this.projectRepo.save(project);
   }
 

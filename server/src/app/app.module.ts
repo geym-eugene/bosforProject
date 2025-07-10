@@ -5,6 +5,7 @@ import { ProjectModule } from '../project/project.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from 'src/user/user.module';
 import { FavoriteModule } from 'src/favorite/favorite.module';
+import { ProjectImagesModule } from '../project-images/project-images.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { FavoriteModule } from 'src/favorite/favorite.module';
     AuthModule,
     UserModule,
     FavoriteModule,
+    ProjectImagesModule,
   ],
 })
 export class AppModule {}
