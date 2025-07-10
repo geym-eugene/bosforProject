@@ -34,36 +34,35 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+            </a>
             <button
               onClick={() => handleScroll("/", null)}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Home
+              Главная
             </button>
             <button
               onClick={() => handleScroll("/", "projects")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Catalog
+              Каталог
             </button>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              AI Interior
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              3D Viewer
-            </a>
             <button
               onClick={() => handleScroll("/", "projects")}
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Contact
+              Контакты
             </button>
+            <a
+              href="#"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              О нас
+            </a>
           </nav>
 
           {/* Actions */}
@@ -71,7 +70,7 @@ const Header = () => {
             <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Search className="h-5 w-5" />
             </button>
-            Привет {user?.username || "Гость"} 
+            Привет, {user?.username || "Гость"}!
             <button
               onClick={() => navigate("/user")}
               className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
@@ -82,7 +81,7 @@ const Header = () => {
               onClick={() => dispatch(logout())}
               className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
-          выйти
+          Выйти
             </button>}
             <button className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Menu className="h-5 w-5" />
