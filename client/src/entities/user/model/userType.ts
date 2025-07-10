@@ -1,5 +1,6 @@
-import type { z } from "zod";
-import type { signinSchema, signupSchema, userSchema } from "./userSchems";
+import type {z} from "zod";
+import type {signinSchema, signupSchema, userSchema} from "./userSchems";
+import {ProjectT} from "@/entities/projects/model/projectType";
 
 // cxeма для возвращения юзера
 export type UserType = z.infer<typeof userSchema>;
@@ -9,11 +10,18 @@ export type SignupFormType = z.infer<typeof signupSchema>;
 export type SigninFormType = z.infer<typeof signinSchema>;
 // пропишем состояние юзера
 export type UserStatType = {
-  users: UserType[];
-  user: UserType | null;
-  loading: boolean;
-  error: string | null;
-  //   isModalOpen: boolean;
+    users: UserType[];
+    user: UserType | null;
+    loading: boolean;
+    error: string | null;
+    favorites: FavoriteT[]
+    //   isModalOpen: boolean;
 };
 
-export type UsersT = UserType[]
+export type UsersT = UserType[];
+
+export type FavoriteT = {
+    id: 1;
+    project: ProjectT
+};
+
