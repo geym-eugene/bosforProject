@@ -148,7 +148,10 @@ export const userSlice = createSlice({
         builder.addCase(deleteFavoritesThunk.fulfilled, (state, action) => {
             console.log(state.favorites, action.payload);
 
-            state.favorites = state.favorites.filter(({project: {id}}) => id !== action.payload)
+            state.favorites = state.favorites.filter(({project: {id}}) => {
+                console.log({id, payload: action.payload})
+                return id !== action.payload
+            })
         })
     },
 });

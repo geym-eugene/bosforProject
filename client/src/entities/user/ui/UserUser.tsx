@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react'
 import {useAppDispatch, useAppSelector} from "@/shared/library/hooks.ts";
-import {getFavoritesThunk} from "@/entities/user/model/userThunks.ts";
-import {deleteProjectThunk} from "@/entities/projects/model/projectThunks.ts";
+import {deleteFavoritesThunk, getFavoritesThunk} from "@/entities/user/model/userThunks.ts";
 
 function UserUser() {
     const favorites = useAppSelector(s => s.user.favorites)
     const dispatch = useAppDispatch()
 
-    const deleteHandler = (id: number) => dispatch(deleteProjectThunk(id))
+    const deleteHandler = (id: number) => dispatch(deleteFavoritesThunk(id))
 
     useEffect(() => {
         void dispatch(getFavoritesThunk())
@@ -40,7 +39,7 @@ function UserUser() {
                             <p className="text-sm text-gray-500">Этажи: {favorite.project.floors}</p>
                         </div>
                         <button
-                            onClick={() => deleteHandler(favorite.id)}
+                            onClick={() => deleteHandler(favorite.project.id)}
                             className="text-blue-600 hover:text-blue-800 font-medium transition"
                         >
                             Удалить из избранного
