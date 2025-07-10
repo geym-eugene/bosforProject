@@ -26,7 +26,13 @@ export class ProjectImagesService {
 
     const newImage = this.imageRepo.create({ url, isPreview, project });
     await this.imageRepo.save(newImage);
-    return newImage;
+
+    const updatedImages = await this.imageRepo.find({
+      where: { project: { id: projectId } },
+      order: { id: 'ASC' },
+    });
+
+    return updatedImages;
   }
 
   async deleteImage(imageId: number) {

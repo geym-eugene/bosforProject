@@ -13,7 +13,15 @@ export class ProjectService {
   ) {}
 
   findAll(): Promise<Project[]> {
-    return this.projectRepo.find();
+    return this.projectRepo.find({
+      relations: ['images'],
+      order: {
+        id: 'ASC',
+        images: {
+          id: 'ASC',
+        },
+      },
+    });
   }
 
   async create(dto: CreateProjectDto, userId: number): Promise<Project> {
