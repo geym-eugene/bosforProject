@@ -2,7 +2,18 @@ import React, {ChangeEvent, useState} from "react";
 import {ChevronDown, Filter} from "lucide-react";
 import ModalAdding from "@/entities/projects/ui/ModalAdding";
 import {useAppDispatch, useAppSelector} from "@/shared/library/hooks";
-import {minHundred, noFilter, openAddModal, setRangeFilter,} from "@/entities/projects/model/projectSlice";
+import {
+    hiTech,
+    minHundred,
+    minimalism,
+    noFilter,
+    openAddModal,
+    scandi,
+    setAreaFilter,
+    setFloorFilter,
+    setMaterialFilter,
+    setRangeFilter,
+} from "@/entities/projects/model/projectSlice";
 import SecondModal from "@/entities/projects/ui/SecondModal";
 
 // import { naprimerHook } from "@/shared/custom/hooks/naprimer";
@@ -53,15 +64,27 @@ const FilterSection = () => {
             count: 48,
             doing: () => dispatch(minHundred()),
         },
-        {id: "scandinavian", label: "Минимализм", count: 32},
-        {id: "min 100m2", label: "Сканди", count: 28},
-        {id: "luxury", label: "Хай-Тек", count: 16},
+        {id: "scandinavian", label: "Минимализм", count: 32, doing: () => dispatch(minimalism())},
+        {id: "min 100m2", label: "Сканди", count: 28, doing: () => dispatch(scandi())},
+        {id: "luxury", label: "Хай-Тек", count: 16, doing: () => dispatch(hiTech())},
     ];
 
     const doingHandler = (chosenFilter) => {
         chosenFilter?.doing();
         setActiveFilter(chosenFilter);
     };
+
+    const doingHandlerSelect = (chosenFilter) => {
+        dispatch(setMaterialFilter(chosenFilter));
+    };
+
+    const doingHandlerSelectArea = (chosenFilter) => {
+        dispatch(setAreaFilter(JSON.parse(chosenFilter)))
+    }
+
+    const doingHandlerSelectFloor = (chosenFilter) => {
+        dispatch(setFloorFilter(Number(chosenFilter)));
+    }
 
     return (
         <section className="bg-gray-50 py-16">
@@ -97,12 +120,15 @@ const FilterSection = () => {
                 {/* Advanced Filters */}
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
                     <div className="relative">
-                        <select
-                            className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-                            <option>Материал</option>
-                            <option>Сип-Панель</option>
-                            <option>Дерево</option>
-                            <option>Кирпич</option>
+                        <select onChange={(e) => doingHandlerSelect(e.target.value)}
+                                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
+                            <option value="" disabled selected hidden>
+                                Материал
+                            </option>
+                            <option value="">Любой</option>
+                            <option value={'Сип-Панель'}>Сип-Панель</option>
+                            <option value={'дерево'}>Дерево</option>
+                            <option value={'Кирпич'}>Кирпич</option>
                         </select>
                         <ChevronDown
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none"/>
@@ -131,26 +157,27 @@ const FilterSection = () => {
             </span>
                     </div>
                     <div className="relative">
-                        <select
-                            className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-                            <option>Площадь (м2)</option>
-                            <option>до 1000</option>
-                            <option>50 - 300</option>
-                            <option>300 - 550</option>
-                            <option>более 550</option>
+                        <select onChange={(e) => doingHandlerSelectArea(e.target.value)}
+                                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
+                            <option disabled selected hidden>Площадь (м2)</option>
+                            <option value={JSON.stringify({min: 0, max: 100000})}>Любой</option>
+                            <option value={JSON.stringify({min: 0, max: 1000})}>до 1000</option>
+                            <option value={JSON.stringify({min: 50, max: 300})}>50 - 300</option>
+                            <option value={JSON.stringify({min: 300, max: 550})}>300 - 550</option>
+                            <option value={JSON.stringify({min: 550, max: 100000})}>более 550</option>
                         </select>
                         <ChevronDown
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none"/>
                     </div>
 
                     <div className="relative">
-                        <select
-                            className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-                            <option>Этажность</option>
-                            <option>одинокая история</option>
-                            <option>две истории</option>
-                            <option>три истории</option>
-                            <option>мульти макси левел</option>
+                        <select onChange={(e) => doingHandlerSelectFloor(e.target.value)}
+                                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
+                            <option disabled selected hidden>Этажность</option>
+                            <option value={1}>одинокая история</option>
+                            <option value={2}>две истории</option>
+                            <option value={3}>три истории</option>
+                            <option value={5}>мульти макси левел</option>
                         </select>
                         <ChevronDown
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none"/>
