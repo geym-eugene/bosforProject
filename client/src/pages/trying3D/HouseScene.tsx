@@ -6,24 +6,24 @@ import { Mesh, MeshStandardMaterial } from "three";
 import React from "react";
 
 function HouseModel() {
-  const { scene } = useGLTF("/models/jeka.glb");
+const { scene } = useGLTF("/models/Bambo_House.glb");
   console.log("hu:", scene);
 
-  scene.traverse((child) => {
-    if (child instanceof Mesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
+  // scene.traverse((child) => {
+  //   if (child instanceof Mesh) {
+  //     child.castShadow = true;
+  //     child.receiveShadow = true;
 
-      child.material = new MeshStandardMaterial({
-        color: "green",
-        metalness: 0.1,
-        visible: true,
-        transparent: true,
-        opacity: 0.8,
-        // wireframe: true,
-      });
-    }
-  });
+  //     child.material = new MeshStandardMaterial({
+  //       color: "green",
+  //       metalness: 0.1,
+  //       visible: true,
+  //       transparent: true,
+  //       opacity: 0.8,
+  //       // wireframe: true,
+  //     });
+  //   }
+  // });
 
   //   scene.position.set(0, 0, 0);
   return (
@@ -49,7 +49,7 @@ const HouseSceneComponent: React.FC = () => {
       style={{ width: "100%", height: "100%", background: "transparent" }}
       className=""
       shadows
-      camera={{ position: [0, 2, 5], fov: 75 }}
+      camera={{ position: [0, 2, 5], fov: 45 }}
     >
       {/* <Environment preset='warehouse' background /> */}
       <Environment files="/models/lala.jpg" background />

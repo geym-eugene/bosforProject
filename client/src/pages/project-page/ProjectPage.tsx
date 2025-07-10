@@ -67,7 +67,7 @@ const ProjectDetailPage: React.FC = () => {
 
       {/* Ссылки на файлы */}
       <div className="flex flex-wrap gap-4">
-        {project.plan_pdf_url && (
+        {/* {project.plan_pdf_url && (
           <a
             href={project.plan_pdf_url}
             target="_blank"
@@ -77,7 +77,7 @@ const ProjectDetailPage: React.FC = () => {
             <Download className="h-4 w-4 mr-2" />
             Скачать PDF План
           </a>
-        )}
+        )} */}
         {project.model_3d_url && (
           <button
             type="button"
