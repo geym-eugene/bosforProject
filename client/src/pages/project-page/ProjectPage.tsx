@@ -33,7 +33,7 @@ const ProjectDetailPage: React.FC = () => {
 
       <div className="w-full overflow-hidden rounded-xl shadow-md">
         <img
-          src={project.image_preview}
+          src={project.images[0].url}
           alt={project.title}
           className="w-full h-[400px] object-cover"
         />

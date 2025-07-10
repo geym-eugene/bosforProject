@@ -16,6 +16,7 @@ export const uploadPicture = async (
   file: Express.Multer.File,
 ): Promise<string> => {
   const key = `projects/${uuidv4()}_${file.originalname}`;
+
   const params = {
     Bucket: process.env.SELECTEL_BUCKET!,
     Key: key,
@@ -23,8 +24,12 @@ export const uploadPicture = async (
     ContentType: file.mimetype,
     ACL: 'public-read',
   };
-  const result = await s3.upload(params).promise();
-  return result.Location;
+
+  await s3.upload(params).promise();
+
+  // Конструируем нужную ссылку вручную
+  const url = `https://${process.env.PUBLIC_S3_DOMAIN}/${key}`;
+  return url;
 };
 
 export const deletePicture = async (key: string): Promise<void> => {
