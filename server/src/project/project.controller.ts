@@ -7,13 +7,24 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { Project } from './entity';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { UpdateProjectDto } from './dto/updateProject.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetProjectDto } from './dto/getProject.dto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guards';
+import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { Request } from 'express';
 
 @ApiTags('Projects')
 @Controller('api/projects')
@@ -31,12 +42,19 @@ export class ProjectController {
     return this.projectService.findAll();
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'moder')
   @Post()
   @ApiOperation({ summary: 'Создать проект' })
-  create(@Body() dto: CreateProjectDto): Promise<Project> {
-    return this.projectService.create(dto);
+  create(@Body() dto: CreateProjectDto, @Req() req: Request): Promise<Project> {
+    const userId = req.user['id'];
+    return this.projectService.create(dto, userId);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'moder')
   @Patch(':id')
   @ApiOperation({ summary: 'Редактировать проект' })
   update(
@@ -47,6 +65,9 @@ export class ProjectController {
     return this.projectService.update(id, dto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'moder')
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить проект' })
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {

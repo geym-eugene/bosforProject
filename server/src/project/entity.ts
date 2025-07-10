@@ -70,9 +70,6 @@ export class Project {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Project, (project) => project.userId)
-  projects: Project[];
-
   @OneToMany(() => ProjectImage, (image) => image.project, { cascade: true })
   images: ProjectImage[];
 }

@@ -30,10 +30,13 @@ export class GetProjectDto {
   price?: number;
 
   @ApiProperty({
-    example:
-      'https://www.ccnova.ru/upload/resize_cache/iblock/8ef/8e1rimlj3ny6slsmc81gyxr3d12d7szp/800_500_0/310-Novatsiya_vid-1_variant-1.jpg',
+    example: [
+      'https://bosfor.s3/projects/1.jpg',
+      'https://bosfor.s3/projects/2.jpg',
+    ],
+    description: 'Список всех изображений проекта',
   })
-  image_preview?: string;
+  images?: string[];
 
   @ApiProperty({ example: 'https://bosfor.s3/model/dom-skandi.glb' })
   model_3d_url?: string;
