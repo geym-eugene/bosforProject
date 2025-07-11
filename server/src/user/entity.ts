@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Favorite } from '../favorite/entity';
-import { Project } from 'src/project/entity';
+import { Project } from '../project/entity';
 
 export enum UserRole {
   USER = 'user',
