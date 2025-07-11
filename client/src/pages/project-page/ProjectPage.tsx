@@ -9,6 +9,7 @@ const ProjectDetailPage: React.FC = () => {
     const {id} = useParams();
     const projectId = Number(id);
     const dispatch = useAppDispatch();
+    const role = useAppSelector(store => store.user.user?.role)
 
     useEffect(() => {
         void dispatch(getAllProjectsThunk());
@@ -114,6 +115,58 @@ const ProjectDetailPage: React.FC = () => {
             </div>
 
             {/* Описание */}
+            {role === 'admin' && <form
+                onSubmit={submitHandle}
+                className="max-w-3xl mx-auto bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 flex items-center gap-6"
+            >
+                <label
+                    htmlFor="file-upload"
+                    className="flex items-center justify-center w-64 h-36 border-2 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-100 transition shrink-0"
+                >
+                    <div className="flex flex-col items-center justify-center text-center">
+                        <svg
+                            aria-hidden="true"
+                            className="w-6 h-6 mb-1 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M7 16V4m0 0L3.5 7.5M7 4l3.5 3.5M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-4m-4 0H5a2 2 0 01-2-2v-5a2 2 0 012-2h2"
+                            />
+                        </svg>
+                        <p className="text-xs text-gray-500">
+                            <span className="font-semibold">Выбрать файл</span><br/>
+                            или перетащить сюда
+                        </p>
+                    </div>
+                    <input
+                        id="file-upload"
+                        name="file"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        required
+                    />
+                </label>
+
+                <div className="flex-1 space-y-3">
+                    <p className="text-gray-700 text-sm">
+                        Поддерживаются изображения в форматах <strong>JPG</strong>, <strong>PNG</strong> до 5MB.
+                    </p>
+                    <button
+                        type="submit"
+                        className="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 transition"
+                    >
+                        Отправить
+                    </button>
+                </div>
+            </form>}
+
+
             <div>
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">Описание</h2>
                 <p className="text-gray-700 leading-relaxed">{project.description}</p>
@@ -132,11 +185,6 @@ const ProjectDetailPage: React.FC = () => {
                         Открыть 3D Модель
                     </button>
                 )}
-
-                <form onSubmit={(e) => submitHandle(e)}>
-                    <input name='file' type='file' accept="image/*"/>
-                    <button type='submit'>Отправить</button>
-                </form>
 
                 <Modal3D open={modalOpen} onOpenChange={setModalOpen}/>
             </div>
