@@ -1,7 +1,7 @@
-import {getAllProjectsThunk} from "@/entities/projects/model/projectThunks";
+import {addImagesThunk, getAllProjectsThunk} from "@/entities/projects/model/projectThunks";
 import {useAppDispatch, useAppSelector} from "@/shared/library/hooks";
 import {ChevronLeft, ChevronRight, Eye, Home, Square} from "lucide-react";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router";
 import {Modal3D} from "@/pages/trying3D/Modal3DPage";
 
@@ -35,6 +35,13 @@ const ProjectDetailPage: React.FC = () => {
             prev === project.images.length - 1 ? 0 : prev + 1
         );
     };
+
+    const submitHandle = (e) => {
+        e.preventDefault();
+        const inputData = new FormData(e.currentTarget);
+        dispatch(addImagesThunk({projectID: project.id, formData: inputData}))
+    }
+
 
     return (
         <div className="max-w-5xl mx-auto p-6 space-y-8">
@@ -125,6 +132,12 @@ const ProjectDetailPage: React.FC = () => {
                         Открыть 3D Модель
                     </button>
                 )}
+
+                <form onSubmit={(e) => submitHandle(e)}>
+                    <input name='file' type='file' accept="image/*"/>
+                    <button type='submit'>Отправить</button>
+                </form>
+
                 <Modal3D open={modalOpen} onOpenChange={setModalOpen}/>
             </div>
         </div>
