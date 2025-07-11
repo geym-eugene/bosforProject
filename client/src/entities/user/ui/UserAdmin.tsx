@@ -56,9 +56,9 @@ export default function UserAdmin() {
                 if (user.role === 'user') return giveAdmin({id: user.id, role: 'moder'})
                 giveAdmin({id: user.id, role: 'user'})
               }}
-              className="text-blue-600 hover:text-blue-800 font-medium transition"
+              className="text-gray-600 hover:text-blue-800 font-medium transition"
             >
-              ✏️ Дать/забрать модерку 
+                {user.role === "user" ? "выдать право на модерацию" : "отнять право на модерацию"}
             </button>
           </li>
         ))}
