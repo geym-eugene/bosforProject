@@ -30,7 +30,7 @@ function applyFilters(state: InitialStateT) {
             : true;
 
         const matchPrice = price !== null
-            ? project.price <= price
+            ? Number(project.price) >= price
             : true;
 
         const matchMaterial = material
@@ -99,7 +99,7 @@ export const projectsSlice = createSlice({
             state.rangeFilter = action.payload;
 
             state.projectsFiltered = state.projects.filter(
-                (el) => el.price <= state.rangeFilter
+                (el) => Number(el.price) <= state.rangeFilter
             );
         },
         setMaterialFilter(state, action: PayloadAction<string>) {
@@ -151,6 +151,9 @@ export const projectsSlice = createSlice({
             state.error = action.error.message;
         });
         builder.addCase(addProjectThunk.fulfilled, (state, action) => {
+            action.payload.area_m2 = Number(action.payload.area_m2)
+            action.payload.floors = Number(action.payload.floors)
+            action.payload.price = Number(action.payload.price)
             state.projects.push(action.payload);
             state.projectsFiltered.push(action.payload);
             state.loading = false;
