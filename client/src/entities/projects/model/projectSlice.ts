@@ -1,6 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {InitialStateT} from "./projectType";
-import {addProjectThunk, deleteProjectThunk, getAllProjectsThunk, patchProjectThunk,} from "./projectThunks";
+import {
+    addImagesThunk,
+    addProjectThunk,
+    deleteProjectThunk,
+    getAllProjectsThunk,
+    patchProjectThunk,
+} from "./projectThunks";
 
 const initialState: InitialStateT = {
     projects: [],
@@ -210,6 +216,12 @@ export const projectsSlice = createSlice({
             state.loading = false;
             state.error = null;
         });
+        builder.addCase(addImagesThunk.fulfilled, (state, action) => {
+            const index = state.projects.findIndex((project) => project.id === action.payload.projectID)
+            if (index !== -1) {
+                state.projects[index].images.push(action.payload.image);
+            }
+        })
     }
 });
 
