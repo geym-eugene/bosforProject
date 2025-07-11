@@ -126,7 +126,7 @@ const ModalAddProject = () => {
                         className="border p-2"
                         required
                     />
-                    <input
+                    {/* <input
                         name="image_preview"
                         placeholder="Превью изображения (URL)"
                         // onChange={handleChange}
@@ -149,7 +149,7 @@ const ModalAddProject = () => {
                         // value={form.plan_pdf_url}
                         className="border p-2 col-span-2"
                         required
-                    />
+                    /> */}
 
                     <div className="col-span-2 flex justify-end gap-2 mt-4">
                         <button

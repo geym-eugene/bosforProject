@@ -40,8 +40,9 @@ function UserUser() {
 
             <input
                 type="text"
-                placeholder="Поиск по названию (в разработке)"
-                onChange={(e) => searchHandler(e.target.value)}
+                placeholder="Поиск по имени или email"
+                onChange={(e) => searchHandler(e.target.value)
+                }
                 className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
