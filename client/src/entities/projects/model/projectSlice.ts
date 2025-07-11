@@ -216,10 +216,15 @@ export const projectsSlice = createSlice({
             state.loading = false;
             state.error = null;
         });
+
+        builder.addCase(addImagesThunk.pending, (state) => {
+            state.loading = true
+        })
         builder.addCase(addImagesThunk.fulfilled, (state, action) => {
+            state.loading = false
             const index = state.projects.findIndex((project) => project.id === action.payload.projectID)
             if (index !== -1) {
-                state.projects[index].images.push(action.payload.image);
+                state.projects[index].images = action.payload.image;
             }
         })
     }
