@@ -224,7 +224,7 @@ export const projectsSlice = createSlice({
             state.loading = false
             const index = state.projects.findIndex((project) => project.id === action.payload.projectID)
             if (index !== -1) {
-                state.projects[index].images = action.payload.image;
+                state.projects[index].images = action.payload.image; //:) for CumMit
             }
         })
     }
