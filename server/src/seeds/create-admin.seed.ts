@@ -1,11 +1,12 @@
 import { DataSource } from 'typeorm';
 import { User, UserRole } from '../user/entity';
-import 'dotenv/config';
 import { Favorite } from '../favorite/entity';
 import { Project } from '../project/entity';
 import { ProjectImage } from '../project-images/entity';
+import * as dotenv from 'dotenv';
 
-// Создаём DataSource вручную для seed-скрипта
+dotenv.config();
+
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -14,23 +15,16 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   entities: [User, Favorite, Project, ProjectImage],
-  synchronize: true, // чтобы не дропнуть таблицы случайно
+  synchronize: true,
 });
 
 async function seed() {
   await AppDataSource.initialize();
 
   const userRepo = AppDataSource.getRepository(User);
-
-  const existing = await userRepo.findOne({
-    where: { email: 'admin@bosfor.com' },
-  });
-
-  if (existing) {
-    console.log('⚠️ Админ уже существует — удаляю...');
-    await userRepo.remove(existing); // Удаляем
-  }
-
+  await AppDataSource.query(
+    'TRUNCATE TABLE "favorites", "project_images", "projects", "users" RESTART IDENTITY CASCADE',
+  );
   const admin = userRepo.create({
     username: 'superadmin',
     email: 'admin@bosfor.com',
@@ -40,6 +34,7 @@ async function seed() {
 
   await userRepo.save(admin);
   console.log('✅ Админ успешно создан');
+
   await AppDataSource.destroy();
 }
 
